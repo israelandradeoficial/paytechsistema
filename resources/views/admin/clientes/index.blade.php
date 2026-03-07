@@ -480,7 +480,7 @@
                                         onclick="showAddSingleForm()">
                                         <i class="bi bi-plus-lg me-1"></i> Adicionar Taxa
                                     </button>
-                                    <span class="badge bg-light text-dark border py-2 px-3 rounded-pill fw-normal">
+                                    <span class="badge bg-body-tertiary text-body border py-2 px-3 rounded-pill fw-normal">
                                         Total: <span id="taxas_count" class="fw-bold">0</span>
                                     </span>
                                 </div>

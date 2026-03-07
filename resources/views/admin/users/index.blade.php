@@ -184,7 +184,7 @@
                             <i class="bi bi-person-plus-fill text-primary"></i>
                         </div>
                         <div class="flex-grow-1">
-                            <h5 class="modal-title fw-800 text-dark mb-0" style="letter-spacing: -0.02em;">Cadastrar Novo
+                            <h5 class="modal-title fw-800 mb-0" style="letter-spacing: -0.02em;">Cadastrar Novo
                                 Usuário</h5>
                             <p class="text-muted small mb-0 fw-medium opacity-75">Configure o perfil e permissões do novo
                                 colaborador</p>
@@ -435,7 +435,7 @@
                             <i class="bi bi-pencil-fill text-primary"></i>
                         </div>
                         <div class="flex-grow-1">
-                            <h5 class="modal-title fw-800 text-dark mb-0" style="letter-spacing: -0.02em;">Editar Usuário
+                            <h5 class="modal-title fw-800 mb-0" style="letter-spacing: -0.02em;">Editar Usuário
                             </h5>
                             <p class="text-muted small mb-0 fw-medium opacity-75">Atualize as informações e níveis de
                                 acesso do colaborador</p>

@@ -11,7 +11,7 @@
     </td>
     <td>
         <div class="d-flex flex-column">
-            <span class="fw-semibold text-dark">{{ $user->name }}</span>
+            <span class="fw-semibold">{{ $user->name }}</span>
             <span class="text-muted small">{{ $user->email }}</span>
         </div>
     </td>

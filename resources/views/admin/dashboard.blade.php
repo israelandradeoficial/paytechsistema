@@ -480,7 +480,7 @@
                                             <div class="d-flex align-items-center gap-2">
                                                 <div class="avatar">{{ strtoupper(substr($c->nome, 0, 2)) }}</div>
                                                 <div>
-                                                    <div class="fw-semibold text-dark" style="font-size:0.9rem;">
+                                                    <div class="fw-semibold" style="font-size:0.9rem;">
                                                         {{ $c->nome }}</div>
                                                     <div class="text-muted" style="font-size:0.78rem;">
                                                         {{ $c->telefone_formatado }}</div>
