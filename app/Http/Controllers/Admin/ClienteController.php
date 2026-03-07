@@ -55,6 +55,7 @@ class ClienteController extends Controller
             'success' => true,
             'message' => 'Cliente <strong>' . $cliente->nome . '</strong> cadastrado com sucesso!',
             'cliente' => $cliente,
+            'html'    => view('admin.clientes._row', compact('cliente'))->render(),
         ]);
     }
 
@@ -94,8 +95,9 @@ class ClienteController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Cliente <strong>' . $cliente->nome . '</strong> atualizado com sucesso!',
+            'message' => 'Cliente <strong>' . $cliente->fresh()->nome . '</strong> atualizado com sucesso!',
             'cliente' => $cliente->fresh(),
+            'html'    => view('admin.clientes._row', ['cliente' => $cliente->fresh()])->render(),
         ]);
     }
 

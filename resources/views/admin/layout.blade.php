@@ -47,6 +47,108 @@
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
             }
         });
+
+        async function handleAjaxForm(options) {
+            const {
+                formId,
+                modalId,
+                entityName,
+                isEdit = false,
+                onSuccess = null
+            } = options;
+
+            const form = document.getElementById(formId);
+            if (!form) return;
+
+            const modalElement = document.getElementById(modalId);
+            const modal = modalElement ? bootstrap.Modal.getOrCreateInstance(modalElement) : null;
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const formData = new FormData(form);
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalBtnContent = submitBtn.innerHTML;
+
+                submitBtn.disabled = true;
+                submitBtn.innerHTML =
+                    '<span class="spinner-border spinner-border-sm me-2"></span>Processando...';
+
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-TOKEN': window.csrfToken
+                        }
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        if (modal) modal.hide();
+
+                        if (data.html) {
+                            const entityId = data[entityName]?.id;
+                            if (isEdit && entityId) {
+                                const row = document.getElementById(`${entityName}-row-${entityId}`);
+                                if (row) {
+                                    row.outerHTML = data.html;
+                                    const newRow = document.getElementById(`${entityName}-row-${entityId}`);
+                                    newRow.style.backgroundColor = 'rgba(99, 102, 241, 0.1)';
+                                    setTimeout(() => newRow.style.backgroundColor = '', 2000);
+                                }
+                            } else {
+                                const tbody = document.querySelector('table tbody');
+                                const noDataRow = tbody.querySelector('td[colspan="7"]')?.parentElement ||
+                                    tbody.querySelector('td[colspan="6"]')?.parentElement ||
+                                    tbody.querySelector('td[colspan="5"]')?.parentElement;
+                                if (noDataRow) noDataRow.remove();
+
+                                tbody.insertAdjacentHTML('afterbegin', data.html);
+                                const newRow = tbody.firstElementChild;
+                                newRow.style.backgroundColor = 'rgba(34, 197, 94, 0.1)';
+                                setTimeout(() => newRow.style.backgroundColor = '', 2000);
+                            }
+                        }
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: data.message || 'Operação realizada com sucesso!'
+                        });
+
+                        if (typeof onSuccess === 'function') onSuccess(data);
+
+                    } else if (response.status === 422) {
+                        let errorMessages = '';
+                        Object.values(data.errors).forEach(errors => {
+                            errors.forEach(error => {
+                                errorMessages += `${error}<br>`;
+                            });
+                        });
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erro de Validação',
+                            html: errorMessages,
+                            confirmButtonColor: '#6366f1'
+                        });
+                    } else {
+                        throw new Error(data.message || 'Ocorreu um erro inesperado.');
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro',
+                        text: error.message,
+                        confirmButtonColor: '#6366f1'
+                    });
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnContent;
+                }
+            });
+        }
     </script>
 </head>
 
