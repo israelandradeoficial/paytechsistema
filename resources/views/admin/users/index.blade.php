@@ -7,73 +7,58 @@
         }
 
         .table-hover tbody tr:hover {
-            background-color: rgba(99, 102, 241, 0.02);
+            background-color: rgba(99, 102, 241, 0.05);
         }
 
         .modal-content {
             border-radius: 1.25rem;
             border: none;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-        }
-
-        .modal-header {
-            padding: 1.5rem 2rem 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+            background-color: var(--bs-body-bg);
         }
 
         .form-label {
-            color: #4b5563;
+            color: var(--bs-secondary-color);
             letter-spacing: 0.025em;
             margin-bottom: 0.5rem;
+            font-weight: 600;
         }
 
         .form-control,
         .form-select {
-            border: 1px solid #e5e7eb;
-            padding: 0.625rem 0.875rem;
+            border: 1px solid var(--bs-border-color);
+            background-color: var(--bs-body-bg);
+            color: var(--bs-body-color);
             border-radius: 0.75rem;
             transition: all 0.2s;
-            font-size: 0.9375rem;
         }
 
         .form-control:focus,
         .form-select:focus {
             border-color: #6366f1;
             box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            background-color: var(--bs-body-bg);
+            color: var(--bs-body-color);
         }
 
         .permission-card {
             cursor: pointer;
-            border: 1px solid #e5e7eb;
-            background: #fff;
+            border: 1px solid var(--bs-border-color);
+            background: var(--bs-body-bg);
             padding: 1rem;
             border-radius: 1rem;
             transition: all 0.3s ease;
         }
 
         .permission-card:hover {
-            border-color: #c7d2fe;
-            background: #fcfdff;
+            border-color: #6366f1;
+            background: var(--bs-tertiary-bg);
             transform: translateY(-2px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
 
         .permission-card .form-check-input:checked~label {
-            color: #4338ca;
-        }
-
-        .btn-icon {
-            width: 32px;
-            height: 32px;
-            padding: 0;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .btn-icon:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            color: #6366f1;
+            font-weight: 600;
         }
 
         .shadow-xs {
@@ -81,31 +66,12 @@
         }
 
         .form-check-input {
-            width: 2.5em;
-            height: 1.25em;
-            margin-top: 0.125em;
             cursor: pointer;
         }
 
         .form-check-input:checked {
             background-color: #6366f1;
             border-color: #6366f1;
-        }
-
-        .form-switch .form-check-input:focus {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%236366f1'/%3e%3c/svg%3e");
-        }
-
-        .fw-800 {
-            font-weight: 800 !important;
-        }
-
-        .x-small {
-            font-size: 0.75rem;
-        }
-
-        .cursor-pointer {
-            cursor: pointer;
         }
 
         .avatar-upload-container {
@@ -124,13 +90,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
             transition: all 0.3s ease;
             cursor: pointer;
+            border-radius: 50%;
         }
     </style>
     @if (session('success'))
@@ -297,7 +264,7 @@
                             </div>
 
                             <div class="col-md-12 mb-3">
-                                <div class="card border-0 bg-light bg-opacity-50 rounded-4 p-3 border border-dashed">
+                                <div class="modal-section-card">
                                     <p class="x-small text-muted mb-3 fw-bold text-uppercase"><i
                                             class="bi bi-geo-alt me-1 text-primary"></i> Endereço Completo</p>
                                     <div class="row g-3">
@@ -347,14 +314,14 @@
                                 </div>
                             </div>
                             <div class="col-md-12 mb-3">
-                                <div class="card border-0 bg-light bg-opacity-75 rounded-4 p-3">
+                                <div class="modal-section-card">
                                     <p class="x-small text-muted mb-3 fw-bold text-uppercase"><i
                                             class="bi bi-shield-lock me-1"></i> Segurança de Acesso</p>
                                     <div class="row g-3">
                                         <div class="col-md-6">
                                             <label class="form-label x-small fw-bold text-uppercase">Nova Senha</label>
                                             <div class="input-group">
-                                                <span class="input-group-text bg-white border-end-0"><i
+                                                <span class="input-group-text border-end-0"><i
                                                         class="bi bi-key text-muted"></i></span>
                                                 <input type="password" name="password" class="form-control"
                                                     placeholder="Deixe em branco para manter">
@@ -364,7 +331,7 @@
                                             <label class="form-label x-small fw-bold text-uppercase">Confirmar
                                                 Senha</label>
                                             <div class="input-group">
-                                                <span class="input-group-text bg-white border-end-0"><i
+                                                <span class="input-group-text border-end-0"><i
                                                         class="bi bi-shield-check text-muted"></i></span>
                                                 <input type="password" name="password_confirmation" class="form-control"
                                                     placeholder="••••••••">
@@ -374,7 +341,7 @@
                                 </div>
                             </div>
                             <div class="col-md-12 mb-3">
-                                <div class="p-3 rounded-4 bg-light bg-opacity-50 border border-dashed">
+                                <div class="modal-section-card">
                                     <div class="form-check form-switch d-flex align-items-center mb-0">
                                         <input type="hidden" name="is_active" value="0">
                                         <input class="form-check-input" type="checkbox" name="is_active" value="1"
@@ -391,7 +358,7 @@
                             <div class="col-md-12 mb-4">
                                 <label class="form-label small fw-bold text-uppercase">Nível de Acesso</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white border-end-0"><i
+                                    <span class="input-group-text border-end-0"><i
                                             class="bi bi-layers text-muted"></i></span>
                                     <select name="role" class="form-select" required
                                         onchange="togglePermissions(this, 'create_permissions_section')">
@@ -403,7 +370,7 @@
                             </div>
 
                             <div class="col-md-12" id="create_permissions_section">
-                                <div class="p-3 rounded-4 bg-light bg-opacity-50 border border-dashed">
+                                <div class="modal-section-card">
                                     <h6 class="small fw-bold text-uppercase mb-3 d-flex align-items-center">
                                         <i class="bi bi-key me-2 text-primary"></i> Permissões de Módulo
                                     </h6>
@@ -501,7 +468,7 @@
                             <div class="col-md-6 mb-3">
                                 <label class="form-label small fw-bold text-uppercase">Nome Completo</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white border-end-0"><i
+                                    <span class="input-group-text border-end-0"><i
                                             class="bi bi-person text-muted"></i></span>
                                     <input type="text" name="name" id="edit_name" class="form-control" required>
                                 </div>
@@ -509,7 +476,7 @@
                             <div class="col-md-6 mb-3">
                                 <label class="form-label small fw-bold text-uppercase">E-mail</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white border-end-0"><i
+                                    <span class="input-group-text border-end-0"><i
                                             class="bi bi-envelope text-muted"></i></span>
                                     <input type="email" name="email" id="edit_email" class="form-control" required>
                                 </div>
@@ -518,7 +485,7 @@
                             <div class="col-md-4 mb-3">
                                 <label class="form-label small fw-bold text-uppercase">CPF</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white border-end-0"><i
+                                    <span class="input-group-text border-end-0"><i
                                             class="bi bi-card-text text-muted"></i></span>
                                     <input type="text" name="cpf" id="edit_cpf" class="form-control"
                                         placeholder="000.000.000-00">
@@ -527,7 +494,7 @@
                             <div class="col-md-4 mb-3">
                                 <label class="form-label small fw-bold text-uppercase">Telefone</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white border-end-0"><i
+                                    <span class="input-group-text border-end-0"><i
                                             class="bi bi-telephone text-muted"></i></span>
                                     <input type="text" name="phone" id="edit_phone" class="form-control"
                                         placeholder="(00) 00000-0000">
@@ -536,14 +503,14 @@
                             <div class="col-md-4 mb-3">
                                 <label class="form-label small fw-bold text-uppercase">Data de Nascimento</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white border-end-0"><i
+                                    <span class="input-group-text border-end-0"><i
                                             class="bi bi-calendar-event text-muted"></i></span>
                                     <input type="date" name="birth_date" id="edit_birth_date" class="form-control">
                                 </div>
                             </div>
 
                             <div class="col-md-12 mb-3">
-                                <div class="card border-0 bg-light bg-opacity-50 rounded-4 p-3 border border-dashed">
+                                <div class="card border-0 bg-body-tertiary rounded-4 p-3 border border-dashed">
                                     <p class="x-small text-muted mb-3 fw-bold text-uppercase"><i
                                             class="bi bi-geo-alt me-1 text-primary"></i> Endereço Completo</p>
                                     <div class="row g-3">
@@ -588,14 +555,14 @@
                             </div>
 
                             <div class="col-md-12 mb-3">
-                                <div class="card border-0 bg-light bg-opacity-75 rounded-4 p-3">
+                                <div class="modal-section-card">
                                     <p class="x-small text-muted mb-3 fw-bold text-uppercase"><i
                                             class="bi bi-shield-lock me-1"></i> Segurança de Acesso</p>
                                     <div class="row g-3">
                                         <div class="col-md-6">
                                             <label class="form-label x-small fw-bold text-uppercase">Nova Senha</label>
                                             <div class="input-group">
-                                                <span class="input-group-text bg-white border-end-0"><i
+                                                <span class="input-group-text border-end-0"><i
                                                         class="bi bi-key text-muted"></i></span>
                                                 <input type="password" name="password" class="form-control"
                                                     placeholder="Deixe em branco para manter">
@@ -605,7 +572,7 @@
                                             <label class="form-label x-small fw-bold text-uppercase">Confirmar
                                                 Senha</label>
                                             <div class="input-group">
-                                                <span class="input-group-text bg-white border-end-0"><i
+                                                <span class="input-group-text border-end-0"><i
                                                         class="bi bi-shield-check text-muted"></i></span>
                                                 <input type="password" name="password_confirmation" class="form-control"
                                                     placeholder="••••••••">
@@ -616,7 +583,7 @@
                             </div>
 
                             <div class="col-md-12 mb-3">
-                                <div class="p-3 rounded-4 bg-light bg-opacity-50 border border-dashed">
+                                <div class="modal-section-card">
                                     <div class="form-check form-switch d-flex align-items-center mb-0">
                                         <input type="hidden" name="is_active" value="0">
                                         <input class="form-check-input" type="checkbox" name="is_active" value="1"
@@ -634,7 +601,7 @@
                             <div class="col-md-12 mb-4">
                                 <label class="form-label small fw-bold text-uppercase">Nível de Acesso</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white border-end-0"><i
+                                    <span class="input-group-text border-end-0"><i
                                             class="bi bi-layers text-muted"></i></span>
                                     <select name="role" id="edit_role" class="form-select" required
                                         onchange="togglePermissions(this, 'edit_permissions_section')">
@@ -650,7 +617,7 @@
                             </div>
 
                             <div class="col-md-12" id="edit_permissions_section">
-                                <div class="p-3 rounded-4 bg-light bg-opacity-50 border border-dashed">
+                                <div class="p-3 rounded-4 bg-body-tertiary border border-dashed">
                                     <h6 class="small fw-bold text-uppercase mb-3 d-flex align-items-center">
                                         <i class="bi bi-key me-2 text-primary"></i> Permissões de Módulo
                                     </h6>

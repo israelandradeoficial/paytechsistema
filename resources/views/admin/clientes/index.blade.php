@@ -57,7 +57,7 @@
     <div class="modal fade" id="modalNovoCliente" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content shadow-lg border-0">
-                <div class="modal-header text-bg-primary">
+                <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title"><i class="bi bi-person-plus me-2"></i>Novo Cliente</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
@@ -67,120 +67,149 @@
                     <div class="modal-body p-4">
                         <div class="row g-3">
                             <div class="col-12">
-                                <h6 class="fw-bold text-primary border-bottom pb-2 mb-0">
-                                    <i class="bi bi-person-fill me-2"></i>Dados Pessoais
-                                </h6>
-                            </div>
-                            <div class="col-md-5">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Nome Completo</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0"><i
-                                            class="bi bi-person text-muted"></i></span>
-                                    <input type="text" name="nome" class="form-control border-start-0" required
-                                        placeholder="Ex: João Silva">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Data de Nasc.</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0"><i
-                                            class="bi bi-calendar-event text-muted"></i></span>
-                                    <input type="date" name="nascimento" class="form-control border-start-0">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label small fw-bold text-muted text-uppercase">CPF/CNPJ</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0"><i
-                                            class="bi bi-card-text text-muted"></i></span>
-                                    <input type="text" name="cpf_cnpj" class="form-control border-start-0" required
-                                        placeholder="000.000.000-00">
-                                </div>
-                            </div>
-
-                            <div class="col-12 mt-4">
-                                <h6 class="fw-bold text-primary border-bottom pb-2 mb-0">
-                                    <i class="bi bi-envelope-fill me-2"></i>Contato
-                                </h6>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Email</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0"><i
-                                            class="bi bi-envelope text-muted"></i></span>
-                                    <input type="email" name="email" class="form-control border-start-0" required
-                                        placeholder="joao@email.com">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Telefone</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0"><i
-                                            class="bi bi-telephone text-muted"></i></span>
-                                    <input type="text" name="telefone" class="form-control border-start-0" required
-                                        placeholder="(00) 00000-0000">
+                                <div class="modal-section-card">
+                                    <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">
+                                        <i class="bi bi-person-fill me-2"></i>Dados Pessoais
+                                    </h6>
+                                    <div class="row g-3">
+                                        <div class="col-md-5">
+                                            <label class="form-label small fw-bold text-muted text-uppercase">Nome
+                                                Completo</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text border-end-0"><i
+                                                        class="bi bi-person text-muted"></i></span>
+                                                <input type="text" name="nome" class="form-control border-start-0"
+                                                    required placeholder="Ex: João Silva">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label small fw-bold text-muted text-uppercase">Data de
+                                                Nasc.</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text border-end-0"><i
+                                                        class="bi bi-calendar-event text-muted"></i></span>
+                                                <input type="date" name="nascimento" class="form-control border-start-0">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label
+                                                class="form-label small fw-bold text-muted text-uppercase">CPF/CNPJ</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text border-end-0"><i
+                                                        class="bi bi-card-text text-muted"></i></span>
+                                                <input type="text" name="cpf_cnpj" class="form-control border-start-0"
+                                                    required placeholder="000.000.000-00">
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="col-12 mt-4">
-                                <h6 class="fw-bold text-primary border-bottom pb-2 mb-0">
-                                    <i class="bi bi-geo-alt-fill me-2"></i>Endereço
-                                </h6>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label small fw-bold text-muted text-uppercase">CEP</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0"><i
-                                            class="bi bi-search text-muted"></i></span>
-                                    <input type="text" name="cep" class="form-control border-start-0" required
-                                        onblur="lookupCep(this)" placeholder="00000-000">
+                            <div class="col-12">
+                                <div class="modal-section-card">
+                                    <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">
+                                        <i class="bi bi-envelope-fill me-2"></i>Contato
+                                    </h6>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label small fw-bold text-muted text-uppercase">Email</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text border-end-0"><i
+                                                        class="bi bi-envelope text-muted"></i></span>
+                                                <input type="email" name="email" class="form-control border-start-0"
+                                                    required placeholder="joao@email.com">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label
+                                                class="form-label small fw-bold text-muted text-uppercase">Telefone</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text border-end-0"><i
+                                                        class="bi bi-telephone text-muted"></i></span>
+                                                <input type="text" name="telefone" class="form-control border-start-0"
+                                                    required placeholder="(00) 00000-0000">
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-8">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Rua</label>
-                                <input type="text" name="rua" class="form-control" required
-                                    placeholder="Nome da rua">
-                            </div>
-                            <div class="col-md-5">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Bairro</label>
-                                <input type="text" name="bairro" class="form-control" required placeholder="Bairro">
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Número</label>
-                                <input type="text" name="numero" class="form-control" required placeholder="Núº">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Cidade</label>
-                                <input type="text" name="cidade" class="form-control" required placeholder="Cidade">
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Estado</label>
-                                <input type="text" name="estado" class="form-control" required placeholder="UF"
-                                    maxlength="2">
-                            </div>
-                            <div class="col-md-9">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Complemento</label>
-                                <input type="text" name="complemento" class="form-control"
-                                    placeholder="Apto, Sala, Bloco...">
+
+                            <div class="col-12">
+                                <div class="modal-section-card">
+                                    <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">
+                                        <i class="bi bi-geo-alt-fill me-2"></i>Endereço
+                                    </h6>
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label small fw-bold text-muted text-uppercase">CEP</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text border-end-0"><i
+                                                        class="bi bi-search text-muted"></i></span>
+                                                <input type="text" name="cep" class="form-control border-start-0"
+                                                    required onblur="lookupCep(this)" placeholder="00000-000">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <label class="form-label small fw-bold text-muted text-uppercase">Rua</label>
+                                            <input type="text" name="rua" class="form-control" required
+                                                placeholder="Nome da rua">
+                                        </div>
+                                        <div class="col-md-5">
+                                            <label
+                                                class="form-label small fw-bold text-muted text-uppercase">Bairro</label>
+                                            <input type="text" name="bairro" class="form-control" required
+                                                placeholder="Bairro">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label
+                                                class="form-label small fw-bold text-muted text-uppercase">Número</label>
+                                            <input type="text" name="numero" class="form-control" required
+                                                placeholder="Núº">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label
+                                                class="form-label small fw-bold text-muted text-uppercase">Cidade</label>
+                                            <input type="text" name="cidade" class="form-control" required
+                                                placeholder="Cidade">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label
+                                                class="form-label small fw-bold text-muted text-uppercase">Estado</label>
+                                            <input type="text" name="estado" class="form-control" required
+                                                placeholder="UF" maxlength="2">
+                                        </div>
+                                        <div class="col-md-9">
+                                            <label
+                                                class="form-label small fw-bold text-muted text-uppercase">Complemento</label>
+                                            <input type="text" name="complemento" class="form-control"
+                                                placeholder="Apto, Sala, Bloco...">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            {{-- Controle de Acesso --}}
-                            <div class="col-12 mt-4">
-                                <h6 class="fw-bold text-primary border-bottom pb-2 mb-0">
-                                    <i class="bi bi-shield-lock-fill me-2"></i>Controle de Acesso
-                                </h6>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Status</label>
-                                <select name="status" class="form-select">
-                                    <option value="ativo">✅ Ativo</option>
-                                    <option value="inativo">🔴 Inativo</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Data de Validade</label>
-                                <input type="date" name="data_validade" class="form-control">
-                                <div class="form-text">Deixe em branco para acesso vitalício.</div>
+                            <div class="col-12">
+                                <div class="modal-section-card mb-0">
+                                    <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">
+                                        <i class="bi bi-shield-lock-fill me-2"></i>Controle de Acesso
+                                    </h6>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label
+                                                class="form-label small fw-bold text-muted text-uppercase">Status</label>
+                                            <select name="status" class="form-select">
+                                                <option value="ativo">✅ Ativo</option>
+                                                <option value="inativo">🔴 Inativo</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label small fw-bold text-muted text-uppercase">Data de
+                                                Validade</label>
+                                            <input type="date" name="data_validade" class="form-control">
+                                            <div class="form-text">Deixe em branco para acesso vitalício.</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -199,7 +228,7 @@
     <div class="modal fade" id="modalEditarCliente" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content shadow-lg border-0">
-                <div class="modal-header text-bg-secondary">
+                <div class="modal-header bg-secondary text-white">
                     <h5 class="modal-title"><i class="bi bi-pencil me-2"></i>Editar Cliente</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
@@ -210,119 +239,151 @@
                     <div class="modal-body p-4">
                         <div class="row g-3">
                             <div class="col-12">
-                                <h6 class="fw-bold text-secondary border-bottom pb-2 mb-0">
-                                    <i class="bi bi-person-fill me-2"></i>Dados Pessoais
-                                </h6>
-                            </div>
-                            <div class="col-md-5">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Nome Completo</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0"><i
-                                            class="bi bi-person text-muted"></i></span>
-                                    <input type="text" name="nome" id="edit_nome"
-                                        class="form-control border-start-0" required>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Data de Nasc.</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0"><i
-                                            class="bi bi-calendar-event text-muted"></i></span>
-                                    <input type="date" name="nascimento" id="edit_nascimento"
-                                        class="form-control border-start-0">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label small fw-bold text-muted text-uppercase">CPF/CNPJ</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0"><i
-                                            class="bi bi-card-text text-muted"></i></span>
-                                    <input type="text" name="cpf_cnpj" id="edit_cpf_cnpj"
-                                        class="form-control border-start-0" required>
-                                </div>
-                            </div>
-
-                            <div class="col-12 mt-4">
-                                <h6 class="fw-bold text-secondary border-bottom pb-2 mb-0">
-                                    <i class="bi bi-envelope-fill me-2"></i>Contato
-                                </h6>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Email</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0"><i
-                                            class="bi bi-envelope text-muted"></i></span>
-                                    <input type="email" name="email" id="edit_email"
-                                        class="form-control border-start-0" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Telefone</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0"><i
-                                            class="bi bi-telephone text-muted"></i></span>
-                                    <input type="text" name="telefone" id="edit_telefone"
-                                        class="form-control border-start-0" required>
+                                <div class="modal-section-card">
+                                    <h6 class="fw-bold text-secondary border-bottom pb-2 mb-3">
+                                        <i class="bi bi-person-fill me-2"></i>Dados Pessoais
+                                    </h6>
+                                    <div class="row g-3">
+                                        <div class="col-md-5">
+                                            <label class="form-label small fw-bold text-muted text-uppercase">Nome
+                                                Completo</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text border-end-0"><i
+                                                        class="bi bi-person text-muted"></i></span>
+                                                <input type="text" name="nome" id="edit_nome"
+                                                    class="form-control border-start-0" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label small fw-bold text-muted text-uppercase">Data de
+                                                Nasc.</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text border-end-0"><i
+                                                        class="bi bi-calendar-event text-muted"></i></span>
+                                                <input type="date" name="nascimento" id="edit_nascimento"
+                                                    class="form-control border-start-0">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label
+                                                class="form-label small fw-bold text-muted text-uppercase">CPF/CNPJ</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text border-end-0"><i
+                                                        class="bi bi-card-text text-muted"></i></span>
+                                                <input type="text" name="cpf_cnpj" id="edit_cpf_cnpj"
+                                                    class="form-control border-start-0" required>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="col-12 mt-4">
-                                <h6 class="fw-bold text-secondary border-bottom pb-2 mb-0">
-                                    <i class="bi bi-geo-alt-fill me-2"></i>Endereço
-                                </h6>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label small fw-bold text-muted text-uppercase">CEP</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0"><i
-                                            class="bi bi-search text-muted"></i></span>
-                                    <input type="text" name="cep" id="edit_cep"
-                                        class="form-control border-start-0" required onblur="lookupCep(this)">
+                            <div class="col-12">
+                                <div class="modal-section-card">
+                                    <h6 class="fw-bold text-secondary border-bottom pb-2 mb-3">
+                                        <i class="bi bi-envelope-fill me-2"></i>Contato
+                                    </h6>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label small fw-bold text-muted text-uppercase">Email</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text border-end-0"><i
+                                                        class="bi bi-envelope text-muted"></i></span>
+                                                <input type="email" name="email" id="edit_email"
+                                                    class="form-control border-start-0" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label
+                                                class="form-label small fw-bold text-muted text-uppercase">Telefone</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text border-end-0"><i
+                                                        class="bi bi-telephone text-muted"></i></span>
+                                                <input type="text" name="telefone" id="edit_telefone"
+                                                    class="form-control border-start-0" required>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-8">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Rua</label>
-                                <input type="text" name="rua" id="edit_rua" class="form-control" required>
-                            </div>
-                            <div class="col-md-5">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Bairro</label>
-                                <input type="text" name="bairro" id="edit_bairro" class="form-control" required>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Número</label>
-                                <input type="text" name="numero" id="edit_numero" class="form-control" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Cidade</label>
-                                <input type="text" name="cidade" id="edit_cidade" class="form-control" required>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Estado</label>
-                                <input type="text" name="estado" id="edit_estado" class="form-control" required
-                                    maxlength="2">
-                            </div>
-                            <div class="col-md-9">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Complemento</label>
-                                <input type="text" name="complemento" id="edit_complemento" class="form-control">
+
+                            <div class="col-12">
+                                <div class="modal-section-card">
+                                    <h6 class="fw-bold text-secondary border-bottom pb-2 mb-3">
+                                        <i class="bi bi-geo-alt-fill me-2"></i>Endereço
+                                    </h6>
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label small fw-bold text-muted text-uppercase">CEP</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text border-end-0"><i
+                                                        class="bi bi-search text-muted"></i></span>
+                                                <input type="text" name="cep" id="edit_cep"
+                                                    class="form-control border-start-0" required onblur="lookupCep(this)">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <label class="form-label small fw-bold text-muted text-uppercase">Rua</label>
+                                            <input type="text" name="rua" id="edit_rua" class="form-control"
+                                                required>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <label
+                                                class="form-label small fw-bold text-muted text-uppercase">Bairro</label>
+                                            <input type="text" name="bairro" id="edit_bairro" class="form-control"
+                                                required>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label
+                                                class="form-label small fw-bold text-muted text-uppercase">Número</label>
+                                            <input type="text" name="numero" id="edit_numero" class="form-control"
+                                                required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label
+                                                class="form-label small fw-bold text-muted text-uppercase">Cidade</label>
+                                            <input type="text" name="cidade" id="edit_cidade" class="form-control"
+                                                required>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label
+                                                class="form-label small fw-bold text-muted text-uppercase">Estado</label>
+                                            <input type="text" name="estado" id="edit_estado" class="form-control"
+                                                required maxlength="2">
+                                        </div>
+                                        <div class="col-md-9">
+                                            <label
+                                                class="form-label small fw-bold text-muted text-uppercase">Complemento</label>
+                                            <input type="text" name="complemento" id="edit_complemento"
+                                                class="form-control" placeholder="Apto, Sala, Bloco...">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            {{-- Controle de Acesso --}}
-                            <div class="col-12 mt-4">
-                                <h6 class="fw-bold text-secondary border-bottom pb-2 mb-0">
-                                    <i class="bi bi-shield-lock-fill me-2"></i>Controle de Acesso
-                                </h6>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Status</label>
-                                <select name="status" id="edit_status" class="form-select">
-                                    <option value="ativo">✅ Ativo</option>
-                                    <option value="inativo">🔴 Inativo</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Data de Validade</label>
-                                <input type="date" name="data_validade" id="edit_data_validade" class="form-control">
-                                <div class="form-text">Deixe em branco para acesso vitalício.</div>
+                            <div class="col-12">
+                                <div class="modal-section-card mb-0">
+                                    <h6 class="fw-bold text-secondary border-bottom pb-2 mb-3">
+                                        <i class="bi bi-shield-lock-fill me-2"></i>Controle de Acesso
+                                    </h6>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label
+                                                class="form-label small fw-bold text-muted text-uppercase">Status</label>
+                                            <select name="status" id="edit_status" class="form-select">
+                                                <option value="ativo">✅ Ativo</option>
+                                                <option value="inativo">🔴 Inativo</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label small fw-bold text-muted text-uppercase">Data de
+                                                Validade</label>
+                                            <input type="date" name="data_validade" id="edit_data_validade"
+                                                class="form-control">
+                                            <div class="form-text">Deixe em branco para acesso vitalício.</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -343,9 +404,9 @@
             <div class="modal-content shadow-lg border-0">
                 <div class="modal-header border-0 bg-primary bg-gradient text-white py-3">
                     <h5 class="modal-title d-flex align-items-center">
-                        <div class="bg-white bg-opacity-25 rounded-circle p-2 me-3 d-flex align-items-center justify-content-center"
+                        <div class="bg-primary bg-opacity-20 rounded-circle p-2 me-3 d-flex align-items-center justify-content-center"
                             style="width: 40px; height: 40px;">
-                            <i class="bi bi-percent fs-5"></i>
+                            <i class="bi bi-percent fs-5 text-white"></i>
                         </div>
                         <div>
                             <span class="d-block lh-1 fw-bold">Gerenciar Taxas</span>
@@ -360,8 +421,8 @@
                     <div class="row g-4">
                         <!-- Form de Cadastro em Massa -->
                         <div class="col-md-5">
-                            <div class="card border-0 bg-light rounded-4 overflow-hidden shadow-sm mb-4">
-                                <div class="card-body p-4">
+                            <div class="modal-section-card">
+                                <div class="card-body p-0">
                                     <div class="d-flex align-items-center mb-4">
                                         <div class="bg-primary bg-opacity-10 text-primary rounded-3 p-2 me-3">
                                             <i class="bi bi-stack fs-5"></i>
@@ -489,7 +550,7 @@
                                     <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-3">
                                         <div class="table-responsive">
                                             <table class="table table-hover align-middle mb-0">
-                                                <thead class="bg-light small text-muted text-uppercase">
+                                                <thead class="bg-body-secondary small text-muted text-uppercase">
                                                     <tr>
                                                         <th class="ps-4">Parcela</th>
                                                         <th>Taxa (%)</th>
@@ -511,7 +572,7 @@
                                     <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-3">
                                         <div class="table-responsive">
                                             <table class="table table-hover align-middle mb-0">
-                                                <thead class="bg-light small text-muted text-uppercase">
+                                                <thead class="bg-body-secondary small text-muted text-uppercase">
                                                     <tr>
                                                         <th class="ps-4">Parcela</th>
                                                         <th>Taxa (%)</th>

@@ -150,12 +150,108 @@
             });
         }
     </script>
+    <style>
+        .app-sidebar {
+            background-color: #111827 !important;
+            color: #f1f5f9 !important;
+        }
+
+        .app-header {
+            background-color: #111827 !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .app-sidebar .sidebar-brand {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Sidebar Nav Styling */
+        .app-sidebar .nav-link {
+            color: #f1f5f9;
+            opacity: 0.8;
+            transition: all 0.2s;
+        }
+
+        .app-sidebar .nav-link:hover {
+            opacity: 1;
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+        }
+
+        .app-sidebar .nav-link.active {
+            background-color: #6366f1 !important;
+            color: #fff !important;
+            opacity: 1;
+        }
+
+        /* Card and Border Adjustments */
+        .card {
+            border-color: var(--bs-border-color);
+            background-color: var(--bs-body-bg);
+        }
+
+        .modal-content {
+            background-color: var(--bs-body-bg);
+            color: var(--bs-body-color);
+        }
+
+        /* Input Adjustments */
+        .input-group-text {
+            background-color: var(--bs-tertiary-bg);
+            border-color: var(--bs-border-color);
+            color: var(--bs-secondary-color);
+            transition: all 0.2s;
+        }
+
+        [data-bs-theme="dark"] .input-group-text {
+            background-color: rgba(255, 255, 255, 0.05) !important;
+        }
+
+        .form-control,
+        .form-select {
+            background-color: var(--bs-body-bg);
+            border-color: var(--bs-border-color);
+            color: var(--bs-body-color);
+        }
+
+        /* Section Cards in Modals */
+        .modal-section-card {
+            background-color: var(--bs-tertiary-bg);
+            border: 1px solid var(--bs-border-color);
+            border-radius: 1rem;
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        [data-bs-theme="dark"] .modal-section-card {
+            background-color: rgba(255, 255, 255, 0.02) !important;
+            border-style: dashed;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bs-tertiary-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bs-secondary-bg);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--bs-secondary-color);
+        }
+    </style>
 </head>
 
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
     <div class="app-wrapper">
         <!-- Header -->
-        <nav class="app-header navbar navbar-expand bg-body shadow" data-bs-theme="dark">
+        <nav class="app-header navbar navbar-expand shadow" data-bs-theme="dark">
             <div class="container-fluid">
                 <ul class="navbar-nav">
                     <li class="nav-item">
@@ -213,7 +309,7 @@
                                 </p>
                             </li>
                             <!-- Menu Footer -->
-                            <li class="user-footer p-3 bg-light d-flex justify-content-center rounded-bottom">
+                            <li class="user-footer p-3 bg-body-tertiary d-flex justify-content-center rounded-bottom">
                                 <form method="POST" action="{{ route('logout') }}" class="w-100">
                                     @csrf
                                     <button type="submit"
@@ -230,7 +326,7 @@
         </nav>
 
         <!-- Sidebar -->
-        <aside class="app-sidebar bg-body shadow" data-bs-theme="dark">
+        <aside class="app-sidebar shadow" data-bs-theme="dark">
             <div class="sidebar-brand">
                 <a href="{{ route('admin.dashboard') }}" class="brand-link text-center px-0">
                     @if ($logo = \App\Models\Setting::get('logo_system'))

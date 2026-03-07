@@ -31,11 +31,12 @@
 
                             {{-- Logo Sistema --}}
                             <div class="col-md-3 text-center">
-                                <div class="p-3 border rounded-4 bg-light h-100 d-flex flex-column align-items-center">
+                                <div
+                                    class="p-3 border rounded-4 bg-body-tertiary h-100 d-flex flex-column align-items-center">
                                     <label class="form-label small fw-bold text-muted text-uppercase mb-3">Painel
                                         Admin</label>
-                                    <div class="bg-white rounded p-2 mb-3 d-flex align-items-center justify-content-center"
-                                        style="width: 100%; height: 80px; border: 1px dashed #ccc;">
+                                    <div class="bg-body rounded p-2 mb-3 d-flex align-items-center justify-content-center"
+                                        style="width: 100%; height: 80px; border: 1px dashed var(--bs-border-color);">
                                         @if (isset($settings['logo_system']))
                                             <img id="preview-system" src="{{ Storage::url($settings['logo_system']) }}"
                                                 alt="Logo Sistema" class="img-fluid" style="max-height: 60px;">
@@ -52,10 +53,11 @@
 
                             {{-- Logo Simulador --}}
                             <div class="col-md-3 text-center">
-                                <div class="p-3 border rounded-4 bg-light h-100 d-flex flex-column align-items-center">
+                                <div
+                                    class="p-3 border rounded-4 bg-body-tertiary h-100 d-flex flex-column align-items-center">
                                     <label class="form-label small fw-bold text-muted text-uppercase mb-3">Simulador</label>
-                                    <div class="bg-white rounded p-2 mb-3 d-flex align-items-center justify-content-center"
-                                        style="width: 100%; height: 80px; border: 1px dashed #ccc;">
+                                    <div class="bg-body rounded p-2 mb-3 d-flex align-items-center justify-content-center"
+                                        style="width: 100%; height: 80px; border: 1px dashed var(--bs-border-color);">
                                         @if (isset($settings['logo_simulator']))
                                             <img id="preview-simulator"
                                                 src="{{ Storage::url($settings['logo_simulator']) }}" alt="Logo Simulador"
@@ -73,10 +75,11 @@
 
                             {{-- Logo PDF --}}
                             <div class="col-md-3 text-center">
-                                <div class="p-3 border rounded-4 bg-light h-100 d-flex flex-column align-items-center">
+                                <div
+                                    class="p-3 border rounded-4 bg-body-tertiary h-100 d-flex flex-column align-items-center">
                                     <label class="form-label small fw-bold text-muted text-uppercase mb-3">PDFs</label>
-                                    <div class="bg-white rounded p-2 mb-3 d-flex align-items-center justify-content-center"
-                                        style="width: 100%; height: 80px; border: 1px dashed #ccc;">
+                                    <div class="bg-body rounded p-2 mb-3 d-flex align-items-center justify-content-center"
+                                        style="width: 100%; height: 80px; border: 1px dashed var(--bs-border-color);">
                                         @if (isset($settings['logo_pdf']))
                                             <img id="preview-pdf" src="{{ Storage::url($settings['logo_pdf']) }}"
                                                 alt="Logo PDF" class="img-fluid" style="max-height: 60px;">
@@ -92,10 +95,11 @@
 
                             {{-- Favicon --}}
                             <div class="col-md-3 text-center">
-                                <div class="p-3 border rounded-4 bg-light h-100 d-flex flex-column align-items-center">
+                                <div
+                                    class="p-3 border rounded-4 bg-body-tertiary h-100 d-flex flex-column align-items-center">
                                     <label class="form-label small fw-bold text-muted text-uppercase mb-3">Favicon</label>
-                                    <div class="bg-white rounded p-2 mb-3 d-flex align-items-center justify-content-center"
-                                        style="width: 100%; height: 80px; border: 1px dashed #ccc;">
+                                    <div class="bg-body rounded p-2 mb-3 d-flex align-items-center justify-content-center"
+                                        style="width: 100%; height: 80px; border: 1px dashed var(--bs-border-color);">
                                         @if (isset($settings['favicon']))
                                             <img id="preview-favicon" src="{{ Storage::url($settings['favicon']) }}"
                                                 alt="Favicon" class="img-fluid" style="max-height: 48px;">
@@ -154,7 +158,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer bg-light text-end py-3 px-4">
+                    <div class="card-footer bg-body-tertiary text-end py-3 px-4">
                         <button type="submit" class="btn btn-primary rounded-pill px-5 fw-bold shadow-sm">
                             <i class="bi bi-save me-2"></i>Salvar Todas as Configurações
                         </button>
