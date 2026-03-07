@@ -245,6 +245,72 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--bs-secondary-color);
         }
+
+        /* User Profile Dropdown */
+        .user-menu .dropdown-menu {
+            border-radius: 1.25rem !important;
+            padding: 0 !important;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .user-header-v5 {
+            background: linear-gradient(135deg, var(--bs-primary-bg-subtle) 0%, var(--bs-tertiary-bg) 100%);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-bottom: 1px solid var(--bs-border-color-translucent);
+        }
+
+        .user-header-v5 img {
+            width: 90px;
+            height: 90px;
+            border: 4px solid var(--bs-body-bg);
+            box-shadow: 0 4px 6px -1px var(--bs-primary-bg-subtle);
+            margin-bottom: 1rem;
+            object-fit: cover;
+        }
+
+        .user-header-v5 h6 {
+            font-weight: 700;
+            color: var(--bs-emphasis-color);
+            margin-bottom: 0.25rem;
+            font-size: 1.1rem;
+        }
+
+        .user-header-v5 p {
+            font-size: 0.85rem;
+            color: var(--bs-secondary-color);
+            margin-bottom: 0;
+            font-weight: 500;
+        }
+
+        .user-footer-v5 {
+            padding: 1.25rem;
+            background-color: var(--bs-body-bg);
+        }
+
+        .btn-logout-v5 {
+            background-color: rgba(239, 68, 68, 0.1) !important;
+            color: #ef4444 !important;
+            border: 1px solid rgba(239, 68, 68, 0.2) !important;
+            border-radius: 0.75rem !important;
+            font-weight: 600 !important;
+            font-size: 0.9rem !important;
+            padding: 0.75rem 1rem !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            width: 100%;
+        }
+
+        .btn-logout-v5:hover {
+            background-color: #ef4444 !important;
+            color: #fff !important;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.2);
+        }
     </style>
 </head>
 
@@ -298,22 +364,17 @@
                                 alt="User Image">
                             <span class="d-none d-md-inline">{{ auth()->user()->name }}</span>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end shadow border-0" style="min-width: 200px;">
-                            <!-- Menu Header -->
-                            <li class="user-header bg-primary text-white p-4 text-center rounded-top">
-                                <img src="{{ auth()->user()->avatar_url }}" class="rounded-circle shadow mb-2"
-                                    alt="User Image" style="width: 80px;">
-                                <p>
-                                    {{ auth()->user()->name }}
-                                    <small class="d-block opacity-75">{{ auth()->user()->email }}</small>
-                                </p>
+                        <ul class="dropdown-menu dropdown-menu-end shadow border-0" style="min-width: 280px;">
+                            <li class="user-header-v5">
+                                <img src="{{ auth()->user()->avatar_url }}" class="rounded-circle" alt="User Image">
+                                <h6>{{ auth()->user()->name }}</h6>
+                                <p>{{ auth()->user()->email }}</p>
                             </li>
-                            <!-- Menu Footer -->
-                            <li class="user-footer p-3 bg-body-tertiary d-flex justify-content-center rounded-bottom">
-                                <form method="POST" action="{{ route('logout') }}" class="w-100">
+                            <li class="user-footer-v5">
+                                <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit"
-                                        class="btn btn-danger btn-flat w-100 d-flex align-items-center justify-content-center gap-2">
+                                        class="btn-logout-v5 d-flex align-items-center justify-content-center gap-2">
                                         <i class="bi bi-box-arrow-right"></i>
                                         Sair do Sistema
                                     </button>

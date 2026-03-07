@@ -528,8 +528,8 @@
                             </div>
 
                             <!-- Abas de Bandeiras -->
-                            <ul class="nav nav-pills nav-fill bg-light p-1 rounded-pill mb-4 border" id="taxasTabs"
-                                role="tablist">
+                            <ul class="nav nav-pills nav-fill bg-body-tertiary p-1 rounded-pill mb-4 border"
+                                id="taxasTabs" role="tablist">
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link active rounded-pill px-4" id="master-tab"
                                         data-bs-toggle="pill" data-bs-target="#pane-master" type="button"
@@ -604,17 +604,17 @@
         }
 
         .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: var(--bs-tertiary-bg);
             border-radius: 10px;
         }
 
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #ccc;
+            background: var(--bs-secondary-bg);
             border-radius: 10px;
         }
 
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #bbb;
+            background: var(--bs-secondary-color);
         }
 
         .border-dashed {
@@ -623,7 +623,9 @@
 
         #modalTaxas .form-select,
         #modalTaxas .form-control {
-            border-color: #eef0f2;
+            border-color: var(--bs-border-color);
+            background-color: var(--bs-body-bg);
+            color: var(--bs-body-color);
             padding: 0.6rem 0.9rem;
         }
 
@@ -645,12 +647,12 @@
 
         .taxa-bulk-input:focus {
             text-align: left;
-            background: #fff !important;
+            background: var(--bs-body-bg) !important;
         }
 
         .input-group-tax-list {
-            background-color: #fff;
-            border: 1px solid #eef0f2;
+            background-color: var(--bs-body-bg);
+            border: 1px solid var(--bs-border-color);
             border-radius: 8px;
             padding: 2px 8px;
             transition: all 0.2s;
@@ -748,11 +750,11 @@
             for (let i = 1; i <= qtd; i++) {
                 const col = document.createElement('div');
                 col.className = 'col-6';
-                col.innerHTML = `<div class="p-2 border rounded-3 bg-white shadow-sm small">
+                col.innerHTML = `<div class="p-2 border rounded-3 bg-body-tertiary shadow-sm small">
                     <span class="text-muted fw-bold d-block mb-1">${i}x</span>
-                    <div class="input-group input-group-sm rounded-2 overflow-hidden border">
-                        <input type="number" name="taxas[]" step="0.01" class="form-control border-0 bg-white" value="0.00" required>
-                        <span class="input-group-text border-0 bg-light text-muted fw-bold">%</span>
+                    <div class="input-group input-group-sm rounded-2 overflow-hidden border border-secondary border-opacity-25">
+                        <input type="number" name="taxas[]" step="0.01" class="form-control border-0 bg-body" value="0.00" required>
+                        <span class="input-group-text border-0 bg-body-secondary text-muted fw-bold">%</span>
                     </div>
                 </div>`;
                 grid.appendChild(col);

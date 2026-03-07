@@ -7,9 +7,33 @@ use App\Models\Cliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Gate;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Setting;
+use Illuminate\Support\Facades\Storage;
 
 class ClienteController extends Controller
 {
+    public function pdf(Cliente $cliente)
+    {
+        Gate::authorize('manage_clients');
+
+        $settings = Setting::all()->pluck('value', 'key');
+        $logoBase64 = null;
+
+        $logoPath = $settings['logo_pdf'] ?? $settings['logo_system'] ?? null;
+
+        if ($logoPath && Storage::disk('public')->exists($logoPath)) {
+            $path = Storage::disk('public')->path($logoPath);
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data = file_get_contents($path);
+            $logoBase64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        }
+
+        $pdf = Pdf::loadView('admin.clientes.pdf', compact('cliente', 'settings', 'logoBase64'));
+
+        return $pdf->stream('cliente-' . $cliente->slug . '.pdf');
+    }
+
     public function index()
     {
         Gate::authorize('manage_clients');

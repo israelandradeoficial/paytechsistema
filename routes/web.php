@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('can:manage_clients')->group(function () {
         Route::resource('admin/clientes', ClienteController::class)->names('admin.clientes');
         Route::get('admin/clientes/{cliente}/taxas', [TaxaController::class, 'index'])->name('admin.clientes.taxas.index');
+        Route::get('admin/clientes/{cliente}/pdf', [ClienteController::class, 'pdf'])->name('admin.clientes.pdf');
     });
 
     // Usuários (Apenas quem tem permissão manage_users)

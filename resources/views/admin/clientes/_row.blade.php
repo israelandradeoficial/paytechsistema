@@ -32,6 +32,11 @@
                 <i class="bi bi-box-arrow-up-right"></i>
             </a>
 
+            <a href="{{ route('admin.clientes.pdf', $cliente->id) }}" target="_blank"
+                class="btn btn-outline-danger btn-sm border-0" title="Imprimir Ficha">
+                <i class="bi bi-file-earmark-pdf"></i>
+            </a>
+
             @can('manage_rates')
                 <button type="button" class="btn btn-outline-primary btn-sm border-0" data-bs-toggle="modal"
                     data-bs-target="#modalTaxas" data-cliente-id="{{ $cliente->id }}"

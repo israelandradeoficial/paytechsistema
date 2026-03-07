@@ -71,14 +71,43 @@
         }
 
         .check-v5 {
-            border-radius: 0.25rem !important;
-            background: rgba(255, 255, 255, 0.1) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            color: #6366f1 !important;
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            border-radius: 0.35rem !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
             cursor: pointer;
-            width: 1rem !important;
-            height: 1rem !important;
-            transition: all 0.2s ease !important;
+            width: 1.2rem !important;
+            height: 1.2rem !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            position: relative;
+            outline: none !important;
+            margin: 0 !important;
+            display: inline-block !important;
+            vertical-align: middle !important;
+        }
+
+        .check-v5:checked {
+            background: #6366f1 !important;
+            border-color: #6366f1 !important;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2) !important;
+        }
+
+        .check-v5:checked::after {
+            content: "";
+            position: absolute;
+            left: 5px;
+            top: 1px;
+            width: 6px;
+            height: 11px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .check-v5:hover {
+            border-color: #6366f1 !important;
+            background: rgba(255, 255, 255, 0.08) !important;
         }
     </style>
 
