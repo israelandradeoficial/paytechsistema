@@ -154,17 +154,15 @@
         :root {
             --sidebar-hover: rgba(99, 102, 241, 0.1);
             --sidebar-blue: #6366f1;
-            --sidebar-bg: #ffffff;
-            --sidebar-color: #334155;
-            --sidebar-border: rgba(0, 0, 0, 0.05);
+            --sidebar-bg: #111827;
+            --sidebar-color: #f1f5f9;
+            --sidebar-border: rgba(255, 255, 255, 0.05);
             --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             --premium-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
         [data-bs-theme="dark"] {
-            --sidebar-bg: #111827;
-            --sidebar-color: #f1f5f9;
-            --sidebar-border: rgba(255, 255, 255, 0.05);
+            /* Sidebar variables already set to dark in :root */
         }
 
         .app-sidebar {
@@ -355,7 +353,7 @@
 
 <body class="layout-fixed sidebar-expand-lg bg-body">
     <div class="app-wrapper">
-        <nav class="app-header navbar navbar-expand shadow">
+        <nav class="app-header navbar navbar-expand shadow" data-bs-theme="dark">
             <div class="container-fluid">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" data-lte-toggle="sidebar" href="#" role="button"><i
@@ -405,7 +403,7 @@
                 </ul>
             </div>
         </nav>
-        <aside class="app-sidebar shadow">
+        <aside class="app-sidebar shadow" data-bs-theme="dark">
             <div class="sidebar-brand"><a href="{{ route('admin.dashboard') }}" class="brand-link text-center px-0">
                     @if ($logo = \App\Models\Setting::get('logo_system'))
                         <img src="{{ \Illuminate\Support\Facades\Storage::url($logo) }}" alt="Logo"
