@@ -9,7 +9,8 @@
                 <div class="card-header py-3">
                     <h3 class="card-title fw-bold"><i class="bi bi-sliders me-2"></i>Personalização do Sistema</h3>
                 </div>
-                <form action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data">
+                <form id="form-settings" action="{{ route('admin.settings.update') }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="card-body p-4">
                         @if (session('success'))
@@ -159,8 +160,16 @@
                         </div>
                     </div>
                     <div class="card-footer bg-body-tertiary text-end py-3 px-4">
-                        <button type="submit" class="btn btn-primary rounded-pill px-5 fw-bold shadow-sm">
-                            <i class="bi bi-save me-2"></i>Salvar Todas as Configurações
+                        <button type="submit" id="btn-save-settings"
+                            class="btn btn-primary rounded-pill px-5 fw-bold shadow-sm">
+                            <span class="btn-text">
+                                <i class="bi bi-save me-2"></i>Salvar Todas as Configurações
+                            </span>
+                            <span class="btn-loader d-none">
+                                <span class="spinner-border spinner-border-sm me-2" role="status"
+                                    aria-hidden="true"></span>
+                                Salvando...
+                            </span>
                         </button>
                     </div>
                 </form>
@@ -168,24 +177,91 @@
         </div>
     </div>
 
-    <script>
-        function previewImg(input, previewId, placeholderId) {
-            const [file] = input.files;
-            if (file) {
-                const preview = document.getElementById(previewId);
-                const placeholder = document.getElementById(placeholderId);
+    @push('scripts')
+        <script>
+            function previewImg(input, previewId, placeholderId) {
+                const [file] = input.files;
+                if (file) {
+                    const preview = document.getElementById(previewId);
+                    const placeholder = document.getElementById(placeholderId);
 
-                if (preview) {
-                    preview.src = URL.createObjectURL(file);
-                } else if (placeholder) {
-                    const img = document.createElement('img');
-                    img.id = previewId;
-                    img.src = URL.createObjectURL(file);
-                    img.className = 'img-fluid';
-                    img.style.maxHeight = '80px';
-                    placeholder.parentNode.replaceChild(img, placeholder);
+                    if (preview) {
+                        preview.src = URL.createObjectURL(file);
+                    } else if (placeholder) {
+                        const img = document.createElement('img');
+                        img.id = previewId;
+                        img.src = URL.createObjectURL(file);
+                        img.className = 'img-fluid';
+                        img.style.maxHeight = '80px';
+                        placeholder.parentNode.replaceChild(img, placeholder);
+                    }
                 }
             }
-        }
-    </script>
+
+            window.addEventListener('load', function() {
+                const form = document.getElementById('form-settings');
+                const btn = document.getElementById('btn-save-settings');
+                const btnText = btn.querySelector('.btn-text');
+                const btnLoader = btn.querySelector('.btn-loader');
+
+                form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+
+                    // Show loading
+                    btn.disabled = true;
+                    btnText.classList.add('d-none');
+                    btnLoader.classList.remove('d-none');
+
+                    try {
+                        const formData = new FormData(form);
+                        const response = await fetch(form.action, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                            }
+                        });
+
+                        const data = await response.json();
+
+                        if (data.success) {
+                            if (window.Toast) {
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: data.message || 'Configurações salvas!'
+                                });
+                            } else if (window.Swal) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Sucesso!',
+                                    text: data.message,
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                });
+                            }
+                        } else {
+                            throw new Error(data.message || 'Erro ao salvar as configurações.');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        if (window.Swal) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Erro',
+                                text: error.message || 'Ocorreu um erro inesperado.'
+                            });
+                        } else {
+                            alert(error.message || 'Ocorreu um erro inesperado.');
+                        }
+                    } finally {
+                        // Hide loading
+                        btn.disabled = false;
+                        btnText.classList.remove('d-none');
+                        btnLoader.classList.add('d-none');
+                    }
+                });
+            });
+        </script>
+    @endpush
 @endsection

@@ -40,6 +40,13 @@ class SettingController extends Controller
             }
         }
 
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Configurações atualizadas com sucesso!'
+            ]);
+        }
+
         return redirect()->back()->with('success', 'Configurações atualizadas com sucesso!');
     }
 }

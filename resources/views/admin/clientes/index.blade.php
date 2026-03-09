@@ -3,6 +3,148 @@
 @section('page_title', '')
 
 @section('content')
+    @push('styles')
+        <style>
+            .dt-container {
+                padding: 0;
+            }
+
+            .dt-length,
+            .dt-search {
+                padding: 1.25rem 1.5rem 0.75rem !important;
+            }
+
+            .dt-length label,
+            .dt-search label {
+                font-weight: 600 !important;
+                color: var(--bs-secondary-color) !important;
+                font-size: 0.85rem !important;
+                text-transform: uppercase !important;
+                letter-spacing: 0.5px !important;
+                display: flex !important;
+                align-items: center !important;
+                gap: 0.5rem !important;
+                margin-bottom: 0 !important;
+            }
+
+            .dt-length select {
+                border-radius: 10px !important;
+                padding: 0.35rem 2.25rem 0.35rem 0.75rem !important;
+                border: 1px solid var(--bs-border-color) !important;
+                background-color: var(--bs-body-bg) !important;
+                cursor: pointer !important;
+                font-weight: 500 !important;
+                font-size: 0.9rem !important;
+            }
+
+            .dt-search input {
+                border-radius: 20px !important;
+                padding: 0.5rem 1.25rem 0.5rem 2.85rem !important;
+                border: 1px solid var(--bs-border-color) !important;
+                background-color: var(--bs-body-bg) !important;
+                width: 250px !important;
+                transition: all 0.2s ease !important;
+                font-weight: 500 !important;
+                font-size: 0.9rem !important;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364748b' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E") !important;
+                background-repeat: no-repeat !important;
+                background-position: left 1rem center !important;
+            }
+
+            .dt-search input:focus {
+                width: 320px !important;
+                border-color: var(--bs-primary) !important;
+                box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.1) !important;
+                outline: none !important;
+            }
+
+            .dt-info {
+                font-size: 0.85rem !important;
+                color: var(--bs-secondary-color) !important;
+                padding: 1.25rem 1.5rem !important;
+                font-weight: 500 !important;
+            }
+
+            .dt-paging {
+                padding: 1.25rem 1.5rem !important;
+            }
+
+            .pagination {
+                gap: 4px !important;
+                margin-bottom: 0 !important;
+            }
+
+            .page-link {
+                border-radius: 8px !important;
+                border: 1px solid var(--bs-border-color) !important;
+                background-color: var(--bs-body-bg) !important;
+                color: var(--bs-secondary-color) !important;
+                padding: 0.4rem 0.8rem !important;
+                font-weight: 600 !important;
+                font-size: 0.85rem !important;
+                transition: all 0.2s !important;
+            }
+
+            .page-link:hover {
+                background-color: var(--bs-tertiary-bg) !important;
+                color: var(--bs-primary) !important;
+            }
+
+            .page-item.active .page-link {
+                background-color: var(--bs-primary) !important;
+                border-color: var(--bs-primary) !important;
+                color: #fff !important;
+                box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3) !important;
+            }
+
+            .page-item.disabled .page-link {
+                opacity: 0.5 !important;
+                cursor: not-allowed !important;
+            }
+
+            table.dataTable thead th {
+                border-bottom: 1px solid var(--bs-border-color) !important;
+                background-color: var(--bs-tertiary-bg) !important;
+                padding: 1rem 1rem !important;
+                font-size: 0.75rem !important;
+                letter-spacing: 0.5px !important;
+                color: var(--bs-secondary-color) !important;
+            }
+
+            table.dataTable thead th:first-child,
+            table.dataTable tbody td:first-child {
+                padding-left: 1.5rem !important;
+            }
+
+            table.dataTable thead th:last-child,
+            table.dataTable tbody td:last-child {
+                padding-right: 1.5rem !important;
+            }
+
+            table.dataTable tbody td {
+                padding: 0.85rem 1rem !important;
+                font-size: 0.9rem !important;
+                border-bottom: 1px solid var(--bs-border-color-translucent) !important;
+            }
+
+            .dt-processing {
+                background: var(--bs-body-bg) !important;
+                color: var(--bs-primary) !important;
+                border: 1px solid var(--bs-border-color) !important;
+                border-radius: 12px !important;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+                font-weight: 600;
+                padding: 0.75rem 1.5rem !important;
+                height: auto !important;
+                top: 150px !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                z-index: 1000 !important;
+                font-size: 0.85rem !important;
+                margin: 0 !important;
+            }
+        </style>
+    @endpush
     <div class="row">
         <div class="col-12">
             <div class="card card-primary card-outline shadow-sm">
@@ -18,36 +160,22 @@
                     </div>
                 </div>
                 <div class="card-body p-0">
-                    @if ($clientes->count() > 0)
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0">
-                                <thead class="bg-body-secondary text-muted small text-uppercase">
-                                    <tr>
-                                        <th class="ps-4">Nome</th>
-                                        <th>CPF/CNPJ</th>
-                                        <th>Email</th>
-                                        <th>Telefone</th>
-                                        <th>Status</th>
-                                        <th>Validade</th>
-                                        <th class="text-end pe-4">Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($clientes as $cliente)
-                                        @include('admin.clientes._row')
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    @else
-                        <div class="text-center py-5">
-                            <i class="bi bi-people display-1 text-body-secondary opacity-25"></i>
-                            <p class="text-muted mt-3">Nenhum cliente encontrado.</p>
-                        </div>
-                    @endif
-                </div>
-                <div class="card-footer border-top">
-                    {{ $clientes->links() }}
+                    <div class="table-responsive p-0">
+                        <table class="table table-hover align-middle mb-0 w-100" id="tableClientes">
+                            <thead class="bg-body-secondary text-muted small text-uppercase">
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>CPF/CNPJ</th>
+                                    <th>Email</th>
+                                    <th>Telefone</th>
+                                    <th>Status</th>
+                                    <th>Validade</th>
+                                    <th class="text-end">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -213,7 +341,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer bg-body-tertiary px-4 py-3">
+                    <div class="modal-footer bg-body-secondary px-4 py-3">
                         <button type="button" class="btn btn-light rounded-pill px-4"
                             data-bs-dismiss="modal">Cancelar</button>
                         <button type="submit" id="btnSalvarCliente" class="btn btn-primary rounded-pill px-4">Salvar
@@ -387,7 +515,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer bg-body-tertiary px-4 py-3">
+                    <div class="modal-footer bg-body-secondary px-4 py-3">
                         <button type="button" class="btn btn-light rounded-pill px-4"
                             data-bs-dismiss="modal">Cancelar</button>
                         <button type="submit" id="btnAtualizarCliente"
@@ -512,9 +640,9 @@
                                                 (%)</label>
                                             <div class="input-group input-group-sm rounded-3 overflow-hidden shadow-sm">
                                                 <input type="number" name="valor" step="0.01"
-                                                    class="form-control border-0 bg-white" required placeholder="0.00">
+                                                    class="form-control border-0 bg-body" required placeholder="0.00">
                                                 <span
-                                                    class="input-group-text border-0 bg-light-subtle text-muted fw-bold">%</span>
+                                                    class="input-group-text border-0 bg-body-secondary text-muted fw-bold">%</span>
                                             </div>
                                         </div>
                                         <div class="col-md-2">
@@ -665,212 +793,340 @@
         }
     </style>
 
-    <script>
-        // Initialize AJAX Forms
-        document.addEventListener('DOMContentLoaded', function() {
-            handleAjaxForm({
-                formId: 'formNovoCliente',
-                modalId: 'modalNovoCliente',
-                entityName: 'cliente'
-            });
+    @push('scripts')
+        <script>
+            let table;
 
-            handleAjaxForm({
-                formId: 'formEditarCliente',
-                modalId: 'modalEditarCliente',
-                entityName: 'cliente',
-                isEdit: true
-            });
-        });
-
-        // Override the delete handler to use global Swal
-        document.addEventListener('click', function(e) {
-            const btn = e.target.closest('.btn-delete-cliente');
-            if (!btn) return;
-
-            Swal.fire({
-                title: 'Tem certeza?',
-                text: `Deseja realmente excluir o cliente "${btn.dataset.nome}"?`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#ef4444',
-                cancelButtonColor: '#6b7280',
-                confirmButtonText: 'Sim, excluir!',
-                cancelButtonText: 'Cancelar',
-                reverseButtons: true
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-                    try {
-                        const response = await fetch(`/admin/clientes/${btn.dataset.id}`, {
-                            method: 'POST',
-                            headers: {
-                                'X-Requested-With': 'XMLHttpRequest',
-                                'X-CSRF-TOKEN': window.csrfToken,
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                _method: 'DELETE'
-                            })
-                        });
-
-                        const data = await response.json();
-
-                        if (response.ok) {
-                            Toast.fire({
-                                icon: 'success',
-                                title: data.message || 'Excluído com sucesso!'
-                            }).then(() => {
-                                window.location.reload();
-                            });
-                        } else {
-                            throw new Error(data.message || 'Erro ao excluir cliente.');
-                        }
-                    } catch (error) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Erro',
-                            text: error.message
-                        });
+            async function ajaxSubmit(u, m, d) {
+                const o = {
+                    method: m,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': window.csrfToken
                     }
+                };
+                if (d instanceof FormData) o.body = d;
+                else {
+                    o.headers['Content-Type'] = 'application/json';
+                    o.body = JSON.stringify(d);
                 }
-            });
-        });
-
-
-        // ===================== TAXAS: GERADOR MASSA =====================
-        function gerarCamposTaxas(qtd) {
-            const ctr = document.getElementById('containerTaxas');
-            ctr.innerHTML = '';
-            if (!qtd) {
-                ctr.innerHTML =
-                    '<div class="text-center py-4 opacity-50"><i class="bi bi-grid-3x3-gap d-block fs-3 mb-2"></i>Selecione o limite</div>';
-                return;
+                const r = await fetch(u, o);
+                const res = await r.json();
+                if (!r.ok) throw new Error(res.message || 'Erro na requisição.');
+                return res;
             }
-            const grid = document.createElement('div');
-            grid.className = 'row g-2';
-            for (let i = 1; i <= qtd; i++) {
-                const col = document.createElement('div');
-                col.className = 'col-6';
-                col.innerHTML = `<div class="p-2 border rounded-3 bg-body-tertiary shadow-sm small">
+
+            function swalSuccess(m) {
+                Toast.fire({
+                    icon: 'success',
+                    title: m
+                });
+            }
+
+            function swalError(m) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: m,
+                    confirmButtonColor: '#6366f1'
+                });
+            }
+
+            window.addEventListener('load', function() {
+                table = $('#tableClientes').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('admin.clientes.index') }}",
+                        type: "GET"
+                    },
+                    columns: [{
+                            data: 'nome',
+                            name: 'nome'
+                        },
+                        {
+                            data: 'cpf_cnpj',
+                            name: 'cpf_cnpj'
+                        },
+                        {
+                            data: 'email',
+                            name: 'email'
+                        },
+                        {
+                            data: 'telefone',
+                            name: 'telefone'
+                        },
+                        {
+                            data: 'status',
+                            name: 'status',
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: 'data_validade',
+                            name: 'data_validade'
+                        },
+                        {
+                            data: 'actions',
+                            name: 'actions',
+                            orderable: false,
+                            searchable: false,
+                            className: 'text-end pe-4'
+                        }
+                    ],
+                    layout: {
+                        topStart: {
+                            features: {
+                                pageLength: {
+                                    menu: [10, 25, 50, 100],
+                                    text: 'Exibir _MENU_ registros'
+                                }
+                            }
+                        },
+                        topEnd: {
+                            features: {
+                                search: {
+                                    placeholder: 'Pesquisar clientes...'
+                                }
+                            }
+                        },
+                        bottomStart: 'info',
+                        bottomEnd: 'paging'
+                    },
+                    language: {
+                        url: "{{ asset('lang/pt-BR.json') }}",
+                        search: "",
+                        searchPlaceholder: "Pesquisar clientes...",
+                        lengthMenu: "Exibir _MENU_ registros",
+                        info: "Mostrando _START_ até _END_ de _TOTAL_ clientes",
+                        infoEmpty: "Mostrando 0 até 0 de 0 clientes",
+                        infoFiltered: "(filtrado de _MAX_ total)",
+                        paginate: {
+                            first: '<i class="bi bi-chevron-double-left"></i>',
+                            last: '<i class="bi bi-chevron-double-right"></i>',
+                            next: '<i class="bi bi-chevron-right"></i>',
+                            previous: '<i class="bi bi-chevron-left"></i>'
+                        }
+                    },
+                    pageLength: 10,
+                    order: [
+                        [0, 'asc']
+                    ],
+                    drawCallback: function() {
+                        // Custom adjustments if needed
+                    }
+                });
+
+                // Initialize AJAX Forms
+                handleAjaxForm({
+                    formId: 'formNovoCliente',
+                    modalId: 'modalNovoCliente',
+                    entityName: 'cliente',
+                    onSuccess: function() {
+                        table.ajax.reload(null, false);
+                    }
+                });
+
+                handleAjaxForm({
+                    formId: 'formEditarCliente',
+                    modalId: 'modalEditarCliente',
+                    entityName: 'cliente',
+                    isEdit: true,
+                    onSuccess: function() {
+                        table.ajax.reload(null, false);
+                    }
+                });
+            });
+
+            // Override the delete handler to use global Swal
+            document.addEventListener('click', function(e) {
+                const btn = e.target.closest('.btn-delete-cliente');
+                if (!btn) return;
+
+                Swal.fire({
+                    title: 'Tem certeza?',
+                    text: `Deseja realmente excluir o cliente "${btn.dataset.nome}"?`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: 'Sim, excluir!',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        try {
+                            const response = await fetch(`/admin/clientes/${btn.dataset.id}`, {
+                                method: 'POST',
+                                headers: {
+                                    'X-Requested-With': 'XMLHttpRequest',
+                                    'X-CSRF-TOKEN': window.csrfToken,
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    _method: 'DELETE'
+                                })
+                            });
+
+                            const data = await response.json();
+
+                            if (response.ok) {
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: data.message || 'Excluído com sucesso!'
+                                }).then(() => {
+                                    table.ajax.reload(null, false);
+                                });
+                            } else {
+                                throw new Error(data.message || 'Erro ao excluir cliente.');
+                            }
+                        } catch (error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Erro',
+                                text: error.message
+                            });
+                        }
+                    }
+                });
+            });
+
+
+            // ===================== TAXAS: GERADOR MASSA =====================
+            function gerarCamposTaxas(qtd) {
+                const ctr = document.getElementById('containerTaxas');
+                ctr.innerHTML = '';
+                if (!qtd) {
+                    ctr.innerHTML =
+                        '<div class="text-center py-4 opacity-50"><i class="bi bi-grid-3x3-gap d-block fs-3 mb-2"></i>Selecione o limite</div>';
+                    return;
+                }
+                const grid = document.createElement('div');
+                grid.className = 'row g-2';
+                for (let i = 1; i <= qtd; i++) {
+                    const col = document.createElement('div');
+                    col.className = 'col-6';
+                    col.innerHTML = `<div class="p-2 border rounded-3 bg-body-tertiary shadow-sm small">
                     <span class="text-muted fw-bold d-block mb-1">${i}x</span>
                     <div class="input-group input-group-sm rounded-2 overflow-hidden border border-secondary border-opacity-25">
                         <input type="number" name="taxas[]" step="0.01" class="form-control border-0 bg-body" value="0.00" required>
                         <span class="input-group-text border-0 bg-body-secondary text-muted fw-bold">%</span>
                     </div>
                 </div>`;
-                grid.appendChild(col);
+                    grid.appendChild(col);
+                }
+                ctr.appendChild(grid);
             }
-            ctr.appendChild(grid);
-        }
 
-        document.getElementById('formNovaTaxa').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const btn = this.querySelector('[type="submit"]');
-            btn.disabled = true;
-            try {
-                const data = await ajaxSubmit(this.action, 'POST', new FormData(this));
-                const cId = this.action.match(/\/clientes\/(\d+)\//)[1];
-                loadTaxas(cId);
-                swalSuccess(data.message);
-                this.reset();
-                document.getElementById('containerTaxas').innerHTML = '';
-            } catch (err) {
-                swalError(err.message);
-            } finally {
-                btn.disabled = false;
-            }
-        });
-
-        // ===================== TAXAS: INDIVIDUAL =====================
-        function showAddSingleForm() {
-            const div = document.getElementById('divAddSingle');
-            div.style.display = div.style.display === 'none' ? 'block' : 'none';
-        }
-
-        document.getElementById('formAddSingle').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const form = document.getElementById('formNovaTaxa');
-            const cId = form.action.match(/\/clientes\/(\d+)\//)[1];
-            const btn = this.querySelector('[type="submit"]');
-            btn.disabled = true;
-            try {
-                const data = await ajaxSubmit(`/admin/clientes/${cId}/taxas/single`, 'POST', new FormData(
-                    this));
-                loadTaxas(cId);
-                swalSuccess(data.message);
-                this.reset();
-                document.getElementById('divAddSingle').style.display = 'none';
-            } catch (err) {
-                swalError(err.message);
-            } finally {
-                btn.disabled = false;
-            }
-        });
-
-        async function saveAllTaxas(brand) {
-            const container = brand === 'Mastercard/Visa' ? document.getElementById('pane-master') : document
-                .getElementById('pane-elo');
-            const inputs = container.querySelectorAll('.taxa-bulk-input');
-
-            const dataToUpdate = [];
-            inputs.forEach(input => {
-                dataToUpdate.push({
-                    id: input.dataset.id,
-                    valor: input.value
-                });
+            document.getElementById('formNovaTaxa').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const btn = this.querySelector('[type="submit"]');
+                btn.disabled = true;
+                try {
+                    const data = await ajaxSubmit(this.action, 'POST', new FormData(this));
+                    const cId = this.action.match(/\/clientes\/(\d+)\//)[1];
+                    loadTaxas(cId);
+                    swalSuccess(data.message);
+                    this.reset();
+                    document.getElementById('containerTaxas').innerHTML = '';
+                } catch (err) {
+                    swalError(err.message);
+                } finally {
+                    btn.disabled = false;
+                }
             });
 
-            if (dataToUpdate.length === 0) return;
-
-            try {
-                await ajaxSubmit('/admin/taxas/bulk', 'PUT', {
-                    taxas: dataToUpdate
-                });
-                loadTaxas(lastLoadedClienteId);
-                Swal.fire({
-                    toast: true,
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Todas as taxas atualizadas!',
-                    showConfirmButton: false,
-                    timer: 3000
-                });
-            } catch (err) {
-                swalError(err.message);
+            // ===================== TAXAS: INDIVIDUAL =====================
+            function showAddSingleForm() {
+                const div = document.getElementById('divAddSingle');
+                div.style.display = div.style.display === 'none' ? 'block' : 'none';
             }
-        }
 
-        let lastLoadedClienteId = null;
-        async function loadTaxas(cId) {
-            lastLoadedClienteId = cId;
-            const tMaster = document.getElementById('listaTaxasMaster');
-            const tElo = document.getElementById('listaTaxasElo');
-            const bMaster = document.getElementById('btnSaveAllMaster');
-            const bElo = document.getElementById('btnSaveAllElo');
+            document.getElementById('formAddSingle').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const form = document.getElementById('formNovaTaxa');
+                const cId = form.action.match(/\/clientes\/(\d+)\//)[1];
+                const btn = this.querySelector('[type="submit"]');
+                btn.disabled = true;
+                try {
+                    const data = await ajaxSubmit(`/admin/clientes/${cId}/taxas/single`, 'POST', new FormData(
+                        this));
+                    loadTaxas(cId);
+                    swalSuccess(data.message);
+                    this.reset();
+                    document.getElementById('divAddSingle').style.display = 'none';
+                } catch (err) {
+                    swalError(err.message);
+                } finally {
+                    btn.disabled = false;
+                }
+            });
 
-            const loader =
-                '<tr><td colspan="3" class="text-center py-4"><div class="spinner-border spinner-border-sm text-primary"></div></td></tr>';
-            tMaster.innerHTML = loader;
-            tElo.innerHTML = loader;
-            bMaster.style.display = 'none';
-            bElo.style.display = 'none';
+            async function saveAllTaxas(brand) {
+                const container = brand === 'Mastercard/Visa' ? document.getElementById('pane-master') : document
+                    .getElementById('pane-elo');
+                const inputs = container.querySelectorAll('.taxa-bulk-input');
 
-            try {
-                const res = await fetch(`/admin/clientes/${cId}/taxas`);
-                const taxas = await res.json();
-                tMaster.innerHTML = '';
-                tElo.innerHTML = '';
-                document.getElementById('taxas_count').innerText = taxas.length;
+                const dataToUpdate = [];
+                inputs.forEach(input => {
+                    dataToUpdate.push({
+                        id: input.dataset.id,
+                        valor: input.value
+                    });
+                });
 
-                const renderTable = (list, container, btnContainer) => {
-                    if (list.length === 0) {
-                        container.innerHTML =
-                            '<tr><td colspan="3" class="text-center py-4 text-muted small">Nenhuma taxa.</td></tr>';
-                        btnContainer.style.display = 'none';
-                        return;
-                    }
-                    btnContainer.style.display = 'block';
-                    list.forEach(t => {
-                        container.innerHTML += `<tr>
+                if (dataToUpdate.length === 0) return;
+
+                try {
+                    await ajaxSubmit('/admin/taxas/bulk', 'PUT', {
+                        taxas: dataToUpdate
+                    });
+                    loadTaxas(lastLoadedClienteId);
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Todas as taxas atualizadas!',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                } catch (err) {
+                    swalError(err.message);
+                }
+            }
+
+            let lastLoadedClienteId = null;
+            async function loadTaxas(cId) {
+                lastLoadedClienteId = cId;
+                const tMaster = document.getElementById('listaTaxasMaster');
+                const tElo = document.getElementById('listaTaxasElo');
+                const bMaster = document.getElementById('btnSaveAllMaster');
+                const bElo = document.getElementById('btnSaveAllElo');
+
+                const loader =
+                    '<tr><td colspan="3" class="text-center py-4"><div class="spinner-border spinner-border-sm text-primary"></div></td></tr>';
+                tMaster.innerHTML = loader;
+                tElo.innerHTML = loader;
+                bMaster.style.display = 'none';
+                bElo.style.display = 'none';
+
+                try {
+                    const res = await fetch(`/admin/clientes/${cId}/taxas`);
+                    const taxas = await res.json();
+                    tMaster.innerHTML = '';
+                    tElo.innerHTML = '';
+                    document.getElementById('taxas_count').innerText = taxas.length;
+
+                    const renderTable = (list, container, btnContainer) => {
+                        if (list.length === 0) {
+                            container.innerHTML =
+                                '<tr><td colspan="3" class="text-center py-4 text-muted small">Nenhuma taxa.</td></tr>';
+                            btnContainer.style.display = 'none';
+                            return;
+                        }
+                        btnContainer.style.display = 'block';
+                        list.forEach(t => {
+                            container.innerHTML += `<tr>
                             <td class="ps-4 fw-bold text-secondary">${t.parcela}x</td>
                             <td class="fw-bold text-primary">
                                 <div class="input-group input-group-sm input-group-tax-list">
@@ -882,128 +1138,115 @@
                                 <button class="btn btn-sm btn-outline-danger border-0" onclick="deleteTax(${t.id})"><i class="bi bi-trash"></i></button>
                             </td>
                         </tr>`;
-                    });
-                };
-                renderTable(taxas.filter(x => x.bandeira === 'Mastercard/Visa'), tMaster, bMaster);
-                renderTable(taxas.filter(x => x.bandeira !== 'Mastercard/Visa'), tElo, bElo);
-            } catch (err) {
-                swalError('Erro ao carregar taxas.');
-            }
-        }
-
-        function deleteTax(id) {
-            Swal.fire({
-                title: 'Excluir?',
-                text: 'Tem certeza que deseja excluir esta taxa?',
-                icon: 'warning',
-                confirmButtonText: 'Sim, excluir',
-                confirmButtonColor: '#dc3545',
-                cancelButtonText: 'Cancelar',
-                showCancelButton: true
-            }).then(async (r) => {
-                if (r.isConfirmed) {
-                    try {
-                        await ajaxSubmit(`/admin/taxas/${id}`, 'DELETE', {});
-                        loadTaxas(lastLoadedClienteId);
-                    } catch (err) {
-                        swalError(err.message);
-                    }
+                        });
+                    };
+                    renderTable(taxas.filter(x => x.bandeira === 'Mastercard/Visa'), tMaster, bMaster);
+                    renderTable(taxas.filter(x => x.bandeira !== 'Mastercard/Visa'), tElo, bElo);
+                } catch (err) {
+                    swalError('Erro ao carregar taxas.');
                 }
-            });
-        }
-
-        // ===================== UTILS & MASKS =====================
-        function maskCpfCnpj(i) {
-            let v = i.value.replace(/\D/g, '');
-            if (v.length <= 11) {
-                // CPF: 000.000.000-00
-                v = v.substring(0, 11);
-                v = v.replace(/^(\d{3})(\d)/, '$1.$2');
-                v = v.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
-                v = v.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d{1,2})$/, '$1.$2.$3-$4');
-            } else {
-                // CNPJ: 00.000.000/0000-00
-                v = v.substring(0, 14);
-                v = v.replace(/^(\d{2})(\d)/, '$1.$2');
-                v = v.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
-                v = v.replace(/^(\d{2})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3/$4');
-                v = v.replace(/^(\d{2})\.(\d{3})\.(\d{3})\/(\d{4})(\d{1,2})$/, '$1.$2.$3/$4-$5');
             }
-            i.value = v;
-        }
 
-        function maskTelefone(i) {
-            let v = i.value.replace(/\D/g, '');
-            if (v.length > 11) v = v.substring(0, 11);
-            if (v.length > 10) v = v.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
-            else if (v.length > 2) v = v.replace(/^(\d{2})(\d+)/, '($1) $2');
-            i.value = v;
-        }
-
-        function maskCep(i) {
-            i.value = i.value.replace(/\D/g, '').substring(0, 8).replace(/^(\d{5})(\d)/, '$1-$2');
-        }
-
-        document.querySelectorAll('[name="cpf_cnpj"]').forEach(e => e.addEventListener('input', () => maskCpfCnpj(e)));
-        document.querySelectorAll('[name="telefone"]').forEach(e => e.addEventListener('input', () => maskTelefone(e)));
-        document.querySelectorAll('[name="cep"]').forEach(e => e.addEventListener('input', () => maskCep(e)));
-
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('modalEditarCliente').addEventListener('show.bs.modal', function(e) {
-                const b = e.relatedTarget;
-                const f = document.getElementById('formEditarCliente');
-                f.action = `/admin/clientes/${b.dataset.id}`;
-                ['nome', 'cpf_cnpj', 'nascimento', 'email', 'telefone', 'cep', 'rua', 'bairro', 'numero',
-                    'cidade', 'estado', 'complemento', 'data_validade'
-                ].forEach(k => {
-                    const el = document.getElementById('edit_' + k);
-                    if (el) el.value = b.dataset[k] || '';
+            function deleteTax(id) {
+                Swal.fire({
+                    title: 'Excluir?',
+                    text: 'Tem certeza que deseja excluir esta taxa?',
+                    icon: 'warning',
+                    confirmButtonText: 'Sim, excluir',
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonText: 'Cancelar',
+                    showCancelButton: true
+                }).then(async (r) => {
+                    if (r.isConfirmed) {
+                        try {
+                            await ajaxSubmit(`/admin/taxas/${id}`, 'DELETE', {});
+                            loadTaxas(lastLoadedClienteId);
+                        } catch (err) {
+                            swalError(err.message);
+                        }
+                    }
                 });
-                // Status (select)
-                const statusEl = document.getElementById('edit_status');
-                if (statusEl) statusEl.value = b.dataset.status || 'ativo';
-                // Re-apply masks after populating values
-                maskCpfCnpj(document.getElementById('edit_cpf_cnpj'));
-                maskTelefone(document.getElementById('edit_telefone'));
-                maskCep(document.getElementById('edit_cep'));
+            }
+
+            // ===================== UTILS & MASKS =====================
+            function maskCpfCnpj(i) {
+                let v = i.value.replace(/\D/g, '');
+                if (v.length <= 11) {
+                    // CPF: 000.000.000-00
+                    v = v.substring(0, 11);
+                    v = v.replace(/^(\d{3})(\d)/, '$1.$2');
+                    v = v.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
+                    v = v.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d{1,2})$/, '$1.$2.$3-$4');
+                } else {
+                    // CNPJ: 00.000.000/0000-00
+                    v = v.substring(0, 14);
+                    v = v.replace(/^(\d{2})(\d)/, '$1.$2');
+                    v = v.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+                    v = v.replace(/^(\d{2})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3/$4');
+                    v = v.replace(/^(\d{2})\.(\d{3})\.(\d{3})\/(\d{4})(\d{1,2})$/, '$1.$2.$3/$4-$5');
+                }
+                i.value = v;
+            }
+
+            function maskTelefone(i) {
+                let v = i.value.replace(/\D/g, '');
+                if (v.length > 11) v = v.substring(0, 11);
+                if (v.length > 10) v = v.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+                else if (v.length > 2) v = v.replace(/^(\d{2})(\d+)/, '($1) $2');
+                i.value = v;
+            }
+
+            function maskCep(i) {
+                i.value = i.value.replace(/\D/g, '').substring(0, 8).replace(/^(\d{5})(\d)/, '$1-$2');
+            }
+
+            document.querySelectorAll('[name="cpf_cnpj"]').forEach(e => e.addEventListener('input', () => maskCpfCnpj(e)));
+            document.querySelectorAll('[name="telefone"]').forEach(e => e.addEventListener('input', () => maskTelefone(e)));
+            document.querySelectorAll('[name="cep"]').forEach(e => e.addEventListener('input', () => maskCep(e)));
+
+            window.addEventListener('load', () => {
+                document.getElementById('modalEditarCliente').addEventListener('show.bs.modal', function(e) {
+                    const b = e.relatedTarget;
+                    const f = document.getElementById('formEditarCliente');
+                    f.action = `/admin/clientes/${b.dataset.id}`;
+                    ['nome', 'cpf_cnpj', 'nascimento', 'email', 'telefone', 'cep', 'rua', 'bairro', 'numero',
+                        'cidade', 'estado', 'complemento', 'data_validade'
+                    ].forEach(k => {
+                        const el = document.getElementById('edit_' + k);
+                        if (el) el.value = b.dataset[k] || '';
+                    });
+                    // Status (select)
+                    const statusEl = document.getElementById('edit_status');
+                    if (statusEl) statusEl.value = b.dataset.status || 'ativo';
+                    // Re-apply masks after populating values
+                    maskCpfCnpj(document.getElementById('edit_cpf_cnpj'));
+                    maskTelefone(document.getElementById('edit_telefone'));
+                    maskCep(document.getElementById('edit_cep'));
+                });
+                document.getElementById('modalTaxas').addEventListener('show.bs.modal', function(e) {
+                    const b = e.relatedTarget;
+                    document.getElementById('taxa_cliente_nome').innerText = b.dataset.clienteNome;
+                    const f = document.getElementById('formNovaTaxa');
+                    f.action = `/admin/clientes/${b.dataset.clienteId}/taxas`;
+                    loadTaxas(b.dataset.clienteId);
+                });
             });
-            document.getElementById('modalTaxas').addEventListener('show.bs.modal', function(e) {
-                const b = e.relatedTarget;
-                document.getElementById('taxa_cliente_nome').innerText = b.dataset.clienteNome;
-                const f = document.getElementById('formNovaTaxa');
-                f.action = `/admin/clientes/${b.dataset.clienteId}/taxas`;
-                loadTaxas(b.dataset.clienteId);
-            });
-        });
 
-        async function lookupCep(i) {
-            const cep = i.value.replace(/\D/g, '');
-            if (cep.length !== 8) return;
-            const f = i.closest('form');
-            try {
-                const r = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-                const d = await r.json();
-                if (d.erro) return;
-                f.querySelector('[name="rua"]').value = d.logradouro || '';
-                f.querySelector('[name="bairro"]').value = d.bairro || '';
-                f.querySelector('[name="cidade"]').value = d.localidade || '';
-                f.querySelector('[name="estado"]').value = d.uf || '';
-                f.querySelector('[name="numero"]').focus();
-            } catch (e) {}
-        }
-        // Loading state para os botões de salvar/atualizar cliente
-        function setLoadingBtn(btn, label) {
-            btn.disabled = true;
-            btn.innerHTML =
-                `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>${label}`;
-        }
-
-        document.getElementById('btnSalvarCliente')?.closest('form')?.addEventListener('submit', function() {
-            setLoadingBtn(document.getElementById('btnSalvarCliente'), 'Aguarde Salvando...');
-        });
-
-        document.getElementById('btnAtualizarCliente')?.closest('form')?.addEventListener('submit', function() {
-            setLoadingBtn(document.getElementById('btnAtualizarCliente'), 'Aguarde Salvando...');
-        });
-    </script>
+            async function lookupCep(i) {
+                const cep = i.value.replace(/\D/g, '');
+                if (cep.length !== 8) return;
+                const f = i.closest('form');
+                try {
+                    const r = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                    const d = await r.json();
+                    if (d.erro) return;
+                    f.querySelector('[name="rua"]').value = d.logradouro || '';
+                    f.querySelector('[name="bairro"]').value = d.bairro || '';
+                    f.querySelector('[name="cidade"]').value = d.localidade || '';
+                    f.querySelector('[name="estado"]').value = d.uf || '';
+                    f.querySelector('[name="numero"]').focus();
+                } catch (e) {}
+            }
+        </script>
+    @endpush
 @endsection

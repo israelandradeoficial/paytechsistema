@@ -59,9 +59,9 @@
     <td class="text-end pe-4">
         <div class="d-flex justify-content-end gap-1">
             @can('manage_users')
-                <button type="button" class="btn btn-icon btn-light btn-sm rounded-circle btn-edit-user" title="Editar"
-                    data-bs-toggle="modal" data-bs-target="#modalUserEdit" data-user='{!! str_replace("'", '&apos;', $user->toJson()) !!}'
-                    data-avatar="{{ $user->avatar_url }}"
+                <button type="button" class="btn btn-icon bg-body-secondary border-0 btn-sm rounded-circle btn-edit-user"
+                    title="Editar" data-bs-toggle="modal" data-bs-target="#modalUserEdit"
+                    data-user='{!! str_replace("'", '&apos;', $user->toJson()) !!}' data-avatar="{{ $user->avatar_url }}"
                     data-permissions="{{ $user->permissions->pluck('id')->toJson() }}">
                     <i class="bi bi-pencil-square text-primary"></i>
                 </button>
@@ -69,8 +69,8 @@
 
             @can('manage_users')
                 @if (auth()->id() !== $user->id)
-                    <button type="button" class="btn btn-icon btn-light btn-sm rounded-circle" title="Excluir"
-                        onclick="confirmDelete('{{ $user->id }}', '{{ $user->name }}')">
+                    <button type="button" class="btn btn-icon bg-body-secondary border-0 btn-sm rounded-circle"
+                        title="Excluir" onclick="confirmDelete('{{ $user->id }}', '{{ $user->name }}')">
                         <i class="bi bi-trash3 text-danger"></i>
                     </button>
                 @endif

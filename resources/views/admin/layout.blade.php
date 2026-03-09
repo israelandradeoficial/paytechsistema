@@ -151,230 +151,250 @@
         }
     </script>
     <style>
+        :root {
+            --sidebar-hover: rgba(99, 102, 241, 0.1);
+            --sidebar-blue: #6366f1;
+            --sidebar-bg: #ffffff;
+            --sidebar-color: #334155;
+            --sidebar-border: rgba(0, 0, 0, 0.05);
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --premium-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        [data-bs-theme="dark"] {
+            --sidebar-bg: #111827;
+            --sidebar-color: #f1f5f9;
+            --sidebar-border: rgba(255, 255, 255, 0.05);
+        }
+
         .app-sidebar {
-            background-color: #111827 !important;
-            color: #f1f5f9 !important;
+            background-color: var(--sidebar-bg) !important;
+            color: var(--sidebar-color) !important;
+            border-right: 1px solid var(--sidebar-border) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .app-header {
-            background-color: #111827 !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: var(--sidebar-bg) !important;
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--sidebar-border);
+            padding: 0.5rem 1rem;
         }
 
         .app-sidebar .sidebar-brand {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--sidebar-border);
+            padding: 1.5rem 0.5rem;
+            transition: all 0.3s;
         }
 
-        /* Sidebar Nav Styling */
         .app-sidebar .nav-link {
-            color: #f1f5f9;
+            color: var(--sidebar-color) !important;
             opacity: 0.8;
-            transition: all 0.2s;
+            border-radius: 0.4rem !important;
+            padding: 0.5rem 1rem !important;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .app-sidebar .nav-link i {
+            font-size: 1.1rem;
+            transition: transform 0.2s ease;
+        }
+
+        .sidebar-menu .nav-link p {
+            padding-left: 0 !important;
         }
 
         .app-sidebar .nav-link:hover {
             opacity: 1;
-            background-color: rgba(99, 102, 241, 0.1);
-            color: #6366f1;
+            background-color: var(--sidebar-hover) !important;
+            color: var(--sidebar-blue) !important;
+        }
+
+        .app-sidebar .nav-link:hover i {
+            transform: translateX(2px);
         }
 
         .app-sidebar .nav-link.active {
-            background-color: #6366f1 !important;
+            background-color: var(--sidebar-blue) !important;
             color: #fff !important;
             opacity: 1;
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+        }
+
+        .nav-header {
+            font-size: 0.7rem !important;
+            letter-spacing: 0.1em !important;
+            opacity: 0.5;
+            margin-top: 1.5rem !important;
+            margin-bottom: 0.5rem !important;
         }
 
         /* Card and Border Adjustments */
         .card {
-            border-color: var(--bs-border-color);
-            background-color: var(--bs-body-bg);
+            border: 1px solid var(--bs-border-color);
+            border-radius: 0.5rem !important;
+            box-shadow: var(--card-shadow) !important;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card-header {
+            padding: 1.25rem 1.5rem !important;
+            background: transparent !important;
         }
 
         .modal-content {
-            background-color: var(--bs-body-bg);
-            color: var(--bs-body-color);
+            border-radius: 0.75rem !important;
+            border: none;
+            box-shadow: var(--premium-shadow) !important;
         }
 
         /* Input Adjustments */
-        .input-group-text {
-            background-color: var(--bs-tertiary-bg);
-            border-color: var(--bs-border-color);
-            color: var(--bs-secondary-color);
-            transition: all 0.2s;
-        }
-
-        [data-bs-theme="dark"] .input-group-text {
-            background-color: rgba(255, 255, 255, 0.05) !important;
-        }
-
         .form-control,
         .form-select {
-            background-color: var(--bs-body-bg);
-            border-color: var(--bs-border-color);
-            color: var(--bs-body-color);
+            border-radius: 0.375rem !important;
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background-color: var(--bs-body-bg) !important;
+            color: var(--bs-body-color) !important;
+            border: 1px solid var(--bs-border-color) !important;
         }
 
-        /* Section Cards in Modals */
-        .modal-section-card {
-            background-color: var(--bs-tertiary-bg);
-            border: 1px solid var(--bs-border-color);
-            border-radius: 1rem;
-            padding: 1.25rem;
-            margin-bottom: 1.25rem;
+        .form-control:focus,
+        .form-select:focus {
+            box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.1);
+            border-color: var(--sidebar-blue);
         }
 
-        [data-bs-theme="dark"] .modal-section-card {
-            background-color: rgba(255, 255, 255, 0.02) !important;
-            border-style: dashed;
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bs-tertiary-bg);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--bs-secondary-bg);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--bs-secondary-color);
+        .input-group-text {
+            background-color: var(--bs-body-secondary-bg) !important;
+            color: var(--bs-secondary-color) !important;
+            border: 1px solid var(--bs-border-color) !important;
         }
 
         /* User Profile Dropdown */
         .user-menu .dropdown-menu {
-            border-radius: 1.25rem !important;
+            border-radius: 0.75rem !important;
             padding: 0 !important;
             overflow: hidden;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1) !important;
+            border: 1px solid var(--bs-border-color-translucent) !important;
+            box-shadow: var(--premium-shadow) !important;
+            margin-top: 10px !important;
         }
 
         .user-header-v5 {
-            background: linear-gradient(135deg, var(--bs-primary-bg-subtle) 0%, var(--bs-tertiary-bg) 100%);
-            padding: 2rem 1.5rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(99, 102, 241, 0.1) 100%);
+            padding: 2.5rem 1.5rem;
+            border-bottom: 1px solid var(--bs-border-color-translucent);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            border-bottom: 1px solid var(--bs-border-color-translucent);
         }
 
         .user-header-v5 img {
-            width: 90px;
-            height: 90px;
-            border: 4px solid var(--bs-body-bg);
-            box-shadow: 0 4px 6px -1px var(--bs-primary-bg-subtle);
+            width: 80px;
+            height: 80px;
+            border: 3px solid #fff;
+            box-shadow: var(--card-shadow);
             margin-bottom: 1rem;
             object-fit: cover;
         }
 
-        .user-header-v5 h6 {
-            font-weight: 700;
-            color: var(--bs-emphasis-color);
-            margin-bottom: 0.25rem;
-            font-size: 1.1rem;
-        }
-
-        .user-header-v5 p {
-            font-size: 0.85rem;
-            color: var(--bs-secondary-color);
-            margin-bottom: 0;
-            font-weight: 500;
-        }
-
         .user-footer-v5 {
-            padding: 1.25rem;
-            background-color: var(--bs-body-bg);
+            padding: 1rem 1.25rem 1.25rem;
         }
 
         .btn-logout-v5 {
-            background-color: rgba(239, 68, 68, 0.1) !important;
+            background-color: rgba(239, 68, 68, 0.05) !important;
             color: #ef4444 !important;
-            border: 1px solid rgba(239, 68, 68, 0.2) !important;
-            border-radius: 0.75rem !important;
-            font-weight: 600 !important;
-            font-size: 0.9rem !important;
-            padding: 0.75rem 1rem !important;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            border: 1px solid rgba(239, 68, 68, 0.1) !important;
+            border-radius: 0.375rem !important;
+            padding: 0.7rem !important;
             width: 100%;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
         }
 
         .btn-logout-v5:hover {
             background-color: #ef4444 !important;
             color: #fff !important;
             transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.2);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--sidebar-blue);
         }
     </style>
+
+    @stack('styles')
 </head>
 
-<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+<body class="layout-fixed sidebar-expand-lg bg-body">
     <div class="app-wrapper">
-        <!-- Header -->
-        <nav class="app-header navbar navbar-expand shadow" data-bs-theme="dark">
+        <nav class="app-header navbar navbar-expand shadow">
             <div class="container-fluid">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
-                            <i class="bi bi-list"></i>
-                        </a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" data-lte-toggle="sidebar" href="#" role="button"><i
+                                class="bi bi-list"></i></a></li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
-                    <!-- Theme Toggle -->
-                    <li class="nav-item dropdown">
-                        <button class="nav-link btn btn-link" id="bd-theme" type="button" aria-expanded="false"
-                            data-bs-toggle="dropdown" aria-label="Toggle theme (auto)">
-                            <i class="bi bi-circle-half my-1 theme-icon-active"></i>
-                        </button>
+                    <li class="nav-item dropdown"><button class="nav-link btn btn-link" id="bd-theme" type="button"
+                            aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)"><i
+                                class="bi bi-circle-half my-1 theme-icon-active"></i></button>
                         <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
-                            <li>
-                                <button type="button" class="dropdown-item d-flex align-items-center"
-                                    data-bs-theme-value="light" aria-pressed="false">
-                                    <i class="bi bi-sun-fill me-2 opacity-50 theme-icon"></i>
-                                    Light
-                                </button>
+                            <li><button type="button" class="dropdown-item d-flex align-items-center"
+                                    data-bs-theme-value="light" aria-pressed="false"><i
+                                        class="bi bi-sun-fill me-2 opacity-50 theme-icon"></i>Light </button>
                             </li>
-                            <li>
-                                <button type="button" class="dropdown-item d-flex align-items-center"
-                                    data-bs-theme-value="dark" aria-pressed="false">
-                                    <i class="bi bi-moon-stars-fill me-2 opacity-50 theme-icon"></i>
-                                    Dark
-                                </button>
-                            </li>
-                            <li>
-                                <button type="button" class="dropdown-item d-flex align-items-center"
-                                    data-bs-theme-value="auto" aria-pressed="true">
-                                    <i class="bi bi-circle-half me-2 opacity-50 theme-icon"></i>
-                                    Auto
-                                </button>
+                            <li><button type="button" class="dropdown-item d-flex align-items-center"
+                                    data-bs-theme-value="dark" aria-pressed="false"><i
+                                        class="bi bi-moon-stars-fill me-2 opacity-50 theme-icon"></i>Dark
+                                </button></li>
+                            <li><button type="button" class="dropdown-item d-flex align-items-center"
+                                    data-bs-theme-value="auto" aria-pressed="true"><i
+                                        class="bi bi-circle-half me-2 opacity-50 theme-icon"></i>Auto </button>
                             </li>
                         </ul>
                     </li>
-                    <!-- User Menu Dropdown -->
-                    <li class="nav-item dropdown user-menu">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img src="{{ auth()->user()->avatar_url }}" class="user-image rounded-circle shadow"
-                                alt="User Image">
-                            <span class="d-none d-md-inline">{{ auth()->user()->name }}</span>
-                        </a>
+                    <li class="nav-item dropdown user-menu"><a href="#" class="nav-link dropdown-toggle"
+                            data-bs-toggle="dropdown"><img src="{{ auth()->user()->avatar_url }}"
+                                class="user-image rounded-circle shadow" alt="User Image"><span
+                                class="d-none d-md-inline">{{ auth()->user()->name }}</span></a>
                         <ul class="dropdown-menu dropdown-menu-end shadow border-0" style="min-width: 280px;">
-                            <li class="user-header-v5">
-                                <img src="{{ auth()->user()->avatar_url }}" class="rounded-circle" alt="User Image">
-                                <h6>{{ auth()->user()->name }}</h6>
-                                <p>{{ auth()->user()->email }}</p>
+                            <li class="user-header-v5 text-center">
+                                <img src="{{ auth()->user()->avatar_url }}" class="rounded-circle shadow-sm mb-3"
+                                    alt="User Image">
+                                <h6 class="fw-bold mb-1">{{ auth()->user()->name }}</h6>
+                                <p class="small text-muted mb-0">{{ auth()->user()->email }}</p>
                             </li>
                             <li class="user-footer-v5">
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-                                    <button type="submit"
-                                        class="btn-logout-v5 d-flex align-items-center justify-content-center gap-2">
+                                    <button type="submit" class="btn-logout-v5">
                                         <i class="bi bi-box-arrow-right"></i>
                                         Sair do Sistema
                                     </button>
@@ -385,11 +405,8 @@
                 </ul>
             </div>
         </nav>
-
-        <!-- Sidebar -->
-        <aside class="app-sidebar shadow" data-bs-theme="dark">
-            <div class="sidebar-brand">
-                <a href="{{ route('admin.dashboard') }}" class="brand-link text-center px-0">
+        <aside class="app-sidebar shadow">
+            <div class="sidebar-brand"><a href="{{ route('admin.dashboard') }}" class="brand-link text-center px-0">
                     @if ($logo = \App\Models\Setting::get('logo_system'))
                         <img src="{{ \Illuminate\Support\Facades\Storage::url($logo) }}" alt="Logo"
                             class="brand-image-xl opacity-75 shadow-none"
@@ -407,66 +424,63 @@
                         <li class="nav-item">
                             <a href="{{ route('admin.dashboard') }}"
                                 class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                                <i class="nav-icon bi bi-speedometer2"></i>
+                                <i class="bi bi-speedometer2"></i>
                                 <p>Dashboard</p>
                             </a>
                         </li>
-
                         @can('manage_clients')
                             <li class="nav-item">
                                 <a href="{{ route('admin.clientes.index') }}"
                                     class="nav-link {{ request()->routeIs('admin.clientes.*') ? 'active' : '' }}">
-                                    <i class="nav-icon bi bi-people"></i>
+                                    <i class="bi bi-people"></i>
                                     <p>Clientes</p>
                                 </a>
                             </li>
                         @endcan
-
                         @can('manage_users')
                             <li class="nav-item">
                                 <a href="{{ route('admin.users.index') }}"
                                     class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-                                    <i class="nav-icon bi bi-person-gear"></i>
+                                    <i class="bi bi-person-gear"></i>
                                     <p>Usuários</p>
                                 </a>
                             </li>
                         @endcan
-
                         @if (auth()->user()->role === 'admin')
-                            <li class="nav-header small text-muted text-uppercase mt-3 ms-3">Configurações</li>
+                            <li class="nav-header text-uppercase opacity-50 fw-bold">Configurações</li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.site_settings.index') }}"
+                                    class="nav-link {{ request()->routeIs('admin.site_settings.*') ? 'active' : '' }}">
+                                    <i class="bi bi-palette"></i>
+                                    <p>Personalização</p>
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a href="{{ route('admin.settings.index') }}"
                                     class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
-                                    <i class="nav-icon bi bi-gear"></i>
+                                    <i class="bi bi-gear"></i>
                                     <p>Ajustes Gerenciais</p>
                                 </a>
                             </li>
                         @endif
-
                     </ul>
                 </nav>
             </div>
         </aside>
-
-        <!-- Main Content -->
         <main class="app-main">
             <div class="app-content pt-4">
-                <div class="container-fluid">
-                    @yield('content')
-                </div>
+                <div class="container-fluid">@yield('content') </div>
             </div>
         </main>
-
-        <!-- Footer -->
         <footer class="app-footer">
-            <div class="float-end d-none d-sm-inline">
-                Desenvolvido por <strong>Israel Andrade</strong>
-            </div>
-            Copyright &copy; {{ date('Y') }} <strong><a href="#"
-                    class="text-decoration-none">{{ \App\Models\Setting::get('site_name', 'PayTech | Sistema') }}</a>.</strong>
-            Todos os direitos reservados.
+            <div class="float-end d-none d-sm-inline">Desenvolvido por <strong>Israel Andrade</strong>
+            </div>Copyright &copy;
+            {{ date('Y') }} <strong><a href="#"
+                    class="text-decoration-none">{{ \App\Models\Setting::get('site_name', 'PayTech | Sistema') }}</a>.</strong>Todos
+            os direitos reservados.
         </footer>
     </div>
+    @stack('scripts')
 </body>
 
 </html>

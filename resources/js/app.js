@@ -7,6 +7,11 @@ window.bootstrap = bootstrap;
 
 import 'admin-lte/dist/js/adminlte.min.js';
 
+import DataTable from 'datatables.net-bs5';
+window.DataTable = DataTable;
+
+import 'summernote/dist/summernote-lite.js';
+
 window.Alpine = Alpine;
 
 Alpine.start();

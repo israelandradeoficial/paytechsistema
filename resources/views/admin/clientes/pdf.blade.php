@@ -166,7 +166,6 @@
             text-align: center;
             color: #64748b;
         }
-
     </style>
 </head>
 
@@ -213,6 +212,17 @@
                 <td class="label-col">Documento (CPF/CNPJ)</td>
                 <td class="value-col">{{ $cliente->cpf_cnpj_formatado }}</td>
             </tr>
+            @if ($cliente->nascimento)
+                <tr class="data-row">
+                    <td class="label-col">Data de Nascimento</td>
+                    <td class="value-col">{{ $cliente->nascimento->format('d/m/Y') }}</td>
+                </tr>
+            @else
+                <tr class="data-row">
+                    <td class="label-col">Data de Nascimento</td>
+                    <td class="value-col">N/A</td>
+                </tr>
+            @endif
             <tr class="data-row">
                 <td class="label-col">Situação Cadastral</td>
                 <td class="value-col">
@@ -225,12 +235,6 @@
                 <td class="label-col">Data de Cadastro</td>
                 <td class="value-col">{{ $cliente->created_at->format('d/m/Y') }}</td>
             </tr>
-            @if ($cliente->nascimento)
-                <tr class="data-row">
-                    <td class="label-col">Data de Nascimento</td>
-                    <td class="value-col">{{ $cliente->nascimento->format('d/m/Y') }}</td>
-                </tr>
-            @endif
         </table>
 
         <!-- Section 02: Contact -->
@@ -290,7 +294,7 @@
         @endif
 
         <div class="footer">
-             Documento Gerado por {{ $settings['site_name'] ?? 'PayTech Tecnologia de Pagamentos' }}
+            Documento Gerado por {{ $settings['site_name'] ?? 'PayTech Tecnologia de Pagamentos' }}
         </div>
     </div>
 </body>

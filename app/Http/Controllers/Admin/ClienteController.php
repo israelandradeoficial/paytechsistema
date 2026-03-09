@@ -34,11 +34,82 @@ class ClienteController extends Controller
         return $pdf->stream('cliente-' . $cliente->slug . '.pdf');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         Gate::authorize('manage_clients');
-        $clientes = Cliente::latest()->paginate(10);
-        return view('admin.clientes.index', compact('clientes'));
+
+        if ($request->ajax() && $request->has('draw')) {
+            $query = Cliente::query();
+
+            // Search logic
+            if ($request->has('search') && !empty($request->search['value'])) {
+                $search = $request->search['value'];
+                $query->where(function ($q) use ($search) {
+                    $q->where('nome', 'like', "%{$search}%")
+                        ->orWhere('cpf_cnpj', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('telefone', 'like', "%{$search}%");
+                });
+            }
+
+            $totalRecords = Cliente::count();
+            $filteredRecords = $query->count();
+
+            // Order logic
+            if ($request->has('order')) {
+                $columns = ['nome', 'cpf_cnpj', 'email', 'telefone', 'status', 'data_validade'];
+                $columnIndex = $request->order[0]['column'];
+                $columnName = $columns[$columnIndex] ?? 'created_at';
+                $columnSortOrder = $request->order[0]['dir'];
+                $query->orderBy($columnName, $columnSortOrder);
+            } else {
+                $query->latest();
+            }
+
+            // Pagination logic
+            $start = $request->start;
+            $length = $request->length;
+            $clientes = $query->offset($start)->limit($length)->get();
+
+            $data = [];
+            foreach ($clientes as $cliente) {
+                $statusHtml = $cliente->status === 'ativo'
+                    ? '<span class="badge bg-success-subtle text-success border border-success-subtle">Ativo</span>'
+                    : '<span class="badge bg-danger-subtle text-danger border border-danger-subtle">Inativo</span>';
+
+                $validadeHtml = '<span class="text-muted small">—</span>';
+                if ($cliente->data_validade) {
+                    if ($cliente->data_validade->lt(today())) {
+                        $validadeHtml = '<span class="badge bg-warning-subtle text-warning border border-warning-subtle"><i class="bi bi-clock-history me-1"></i>' . $cliente->data_validade->format('d/m/Y') . '</span>';
+                    } else {
+                        $validadeHtml = '<span class="text-muted small">' . $cliente->data_validade->format('d/m/Y') . '</span>';
+                    }
+                }
+
+                $actionsHtml = view('admin.clientes._actions', compact('cliente'))->render();
+
+                $data[] = [
+                    'nome' => '<div class="fw-bold">' . $cliente->nome . '</div>',
+                    'cpf_cnpj' => $cliente->cpf_cnpj_formatado,
+                    'email' => $cliente->email,
+                    'telefone' => $cliente->telefone_formatado,
+                    'status' => $statusHtml,
+                    'data_validade' => $validadeHtml,
+                    'actions' => $actionsHtml,
+                    'id' => $cliente->id // For row ID
+                ];
+            }
+
+            return response()->json([
+                "draw" => intval($request->draw),
+                "recordsTotal" => $totalRecords,
+                "recordsFiltered" => $filteredRecords,
+                "data" => $data
+            ]);
+        }
+
+        $clientesCount = Cliente::count();
+        return view('admin.clientes.index', compact('clientesCount'));
     }
 
     public function create()
@@ -79,7 +150,6 @@ class ClienteController extends Controller
             'success' => true,
             'message' => 'Cliente <strong>' . $cliente->nome . '</strong> cadastrado com sucesso!',
             'cliente' => $cliente,
-            'html'    => view('admin.clientes._row', compact('cliente'))->render(),
         ]);
     }
 
@@ -121,7 +191,6 @@ class ClienteController extends Controller
             'success' => true,
             'message' => 'Cliente <strong>' . $cliente->fresh()->nome . '</strong> atualizado com sucesso!',
             'cliente' => $cliente->fresh(),
-            'html'    => view('admin.clientes._row', ['cliente' => $cliente->fresh()])->render(),
         ]);
     }
 

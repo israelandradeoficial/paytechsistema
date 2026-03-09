@@ -219,7 +219,7 @@
                             <div class="col-md-6 mb-3">
                                 <label class="form-label small fw-bold text-uppercase">Nome Completo</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white border-end-0"><i
+                                    <span class="input-group-text border-end-0"><i
                                             class="bi bi-person text-muted"></i></span>
                                     <input type="text" name="name" class="form-control" placeholder="Ex: João Silva"
                                         required>
@@ -228,7 +228,7 @@
                             <div class="col-md-6 mb-3">
                                 <label class="form-label small fw-bold text-uppercase">E-mail</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white border-end-0"><i
+                                    <span class="input-group-text border-end-0"><i
                                             class="bi bi-envelope text-muted"></i></span>
                                     <input type="email" name="email" class="form-control"
                                         placeholder="joao@paytech.com" required>
@@ -238,7 +238,7 @@
                             <div class="col-md-4 mb-3">
                                 <label class="form-label small fw-bold text-uppercase">CPF</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white border-end-0"><i
+                                    <span class="input-group-text border-end-0"><i
                                             class="bi bi-card-text text-muted"></i></span>
                                     <input type="text" name="cpf" id="create_cpf" class="form-control"
                                         placeholder="000.000.000-00" value="{{ old('cpf') }}">
@@ -247,7 +247,7 @@
                             <div class="col-md-4 mb-3">
                                 <label class="form-label small fw-bold text-uppercase">Telefone</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white border-end-0"><i
+                                    <span class="input-group-text border-end-0"><i
                                             class="bi bi-telephone text-muted"></i></span>
                                     <input type="text" name="phone" id="create_phone" class="form-control"
                                         placeholder="(00) 00000-0000" value="{{ old('phone') }}">
@@ -256,7 +256,7 @@
                             <div class="col-md-4 mb-3">
                                 <label class="form-label small fw-bold text-uppercase">Data de Nascimento</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white border-end-0"><i
+                                    <span class="input-group-text border-end-0"><i
                                             class="bi bi-calendar-event text-muted"></i></span>
                                     <input type="date" name="birth_date" class="form-control"
                                         value="{{ old('birth_date') }}">

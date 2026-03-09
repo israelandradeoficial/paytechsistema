@@ -7,12 +7,21 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ClienteController;
 use App\Http\Controllers\Admin\TaxaController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\SimulatorController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
+
+Route::get('/termos-de-uso', function () {
+    return view('legal.terms');
+})->name('legal.terms');
+
+Route::get('/politica-de-privacidade', function () {
+    return view('legal.privacy');
+})->name('legal.privacy');
 
 Route::get('/simulador', [SimulatorController::class, 'index'])->name('simulator.index');
 Route::post('/simulador', [SimulatorController::class, 'access'])->name('simulator.access');
@@ -46,6 +55,10 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin')->middleware('can:manage_users')->group(function () { // Using manage_users as proxy for admin or I should check role
         Route::get('/settings', [SettingController::class, 'index'])->name('admin.settings.index');
         Route::post('/settings', [SettingController::class, 'update'])->name('admin.settings.update');
+
+        // Personalização do Site
+        Route::get('/site-settings', [SiteSettingController::class, 'index'])->name('admin.site_settings.index');
+        Route::post('/site-settings', [SiteSettingController::class, 'update'])->name('admin.site_settings.update');
     });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
