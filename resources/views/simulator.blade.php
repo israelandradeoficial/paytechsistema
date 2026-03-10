@@ -342,6 +342,11 @@
             color: #f59e0b;
         }
 
+        .ri-green {
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--success);
+        }
+
         .result-value {
             font-size: 0.92rem;
             font-weight: 700;
@@ -521,6 +526,18 @@
                     </button>
                 </div>
 
+                {{-- LUCRO --}}
+                <div class="field-group">
+                    <div class="field-label">
+                        <i class="bi bi-graph-up-arrow"></i> Porcentagem de Lucro
+                    </div>
+                    <div class="input-wrap">
+                        <span class="currency-prefix">%</span>
+                        <input type="number" id="lucro_perc" class="sim-input" placeholder="0,00" step="0.01"
+                            min="0" autocomplete="off" style="padding-left: 2.22rem;">
+                    </div>
+                </div>
+
                 {{-- VALOR --}}
                 <div class="field-group">
                     <div class="field-label" id="valor-label">
@@ -593,6 +610,13 @@
                             </div>
                             <span class="result-value amber" id="res_cobrar">R$ 0,00</span>
                         </div>
+                        <div class="result-row" id="row-lucro" style="display:none">
+                            <div class="result-label">
+                                <div class="ri-icon ri-green"><i class="bi bi-wallet2"></i></div>
+                                Valor do Lucro
+                            </div>
+                            <span class="result-value" id="res_lucro" style="color: var(--success)">R$ 0,00</span>
+                        </div>
                     </div>
 
                     {{-- HIGHLIGHT --}}
@@ -623,7 +647,7 @@
             style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
             <span>Desenvolvido por <strong>{{ \App\Models\Setting::get('site_name') }}</strong></span>
             <a href="{{ route('simulator.logout') }}"
-                style="color: inherit; opacity: 0.5; font-size: 0.75rem; text-decoration: none;"
+                style="color: #fff; font-size: 0.75rem; text-decoration: none;"
                 title="Sair / Trocar conta">
                 <i class="bi bi-box-arrow-right"></i> Sair
             </a>
@@ -700,11 +724,15 @@
             calcular();
         }
 
-        // Rerender parcelas quando valor muda (se bandeira já selecionada)
+        // Rerender parcelas quando valor ou lucro mudam
         document.getElementById('valor_venda').addEventListener('input', function() {
             if (document.getElementById('sel_bandeira')?.value) {
-                onBandeiraChange(); // re-render labels dinamicamente
+                onBandeiraChange();
             }
+            calcular();
+        });
+
+        document.getElementById('lucro_perc').addEventListener('input', function() {
             calcular();
         });
 
@@ -727,19 +755,24 @@
             const num = parseInt(opt.dataset.num) || 1;
             const bandeira = document.getElementById('sel_bandeira').value;
 
-            let valorBruto, valorTaxaAmt, valorLiquido, valorCobrar;
+            const lucroPerc = parseFloat(document.getElementById('lucro_perc').value) || 0;
+
+            let valorBruto, valorTaxaAmt, valorLiquido, valorCobrar, valorLucro;
 
             if (modo === 'cobrar') {
-                // Cobrar: passa X no cartão → desconta a taxa → mostra quanto recebe
+                // Cobrar: passa X no cartão → desconta a taxa → desconta o lucro → mostra quanto recebe
                 valorBruto = valor;
-                valorTaxaAmt = (valor * taxaPerc) / 100;
-                valorLiquido = valor - valorTaxaAmt;
+                valorTaxaAmt = (valorBruto * taxaPerc) / 100;
+                valorLucro = (valorBruto * lucroPerc) / 100;
+                valorLiquido = valorBruto - valorTaxaAmt - valorLucro;
                 valorCobrar = null;
             } else {
-                // Receber: quer receber X líquido → acrescenta taxa → mostra quanto cobrar
+                // Receber: quer receber X base + lucro Y → acrescenta taxa → mostra quanto cobrar
+                valorLucro = (valor * lucroPerc) / 100;
+                const valorAlvoLiquido = valor + valorLucro;
+                valorBruto = valorAlvoLiquido / (1 - taxaPerc / 100);
+                valorTaxaAmt = valorBruto - valorAlvoLiquido;
                 valorLiquido = valor;
-                valorBruto = valor / (1 - taxaPerc / 100);
-                valorTaxaAmt = valorBruto - valorLiquido;
                 valorCobrar = valorBruto;
             }
 
@@ -759,6 +792,15 @@
                 rowCobrar.style.display = 'none';
             }
 
+            // Linha "lucro"
+            const rowLucro = document.getElementById('row-lucro');
+            if (lucroPerc > 0) {
+                rowLucro.style.display = '';
+                document.getElementById('res_lucro').innerText = fmt(valorLucro);
+            } else {
+                rowLucro.style.display = 'none';
+            }
+
             // Highlight box
             const hlBox = document.getElementById('highlight-box');
             const hlLabel = document.getElementById('hl-label');
@@ -769,7 +811,7 @@
             if (modo === 'cobrar') {
                 hlBox.className = 'highlight-box';
                 hlVal.className = 'highlight-value';
-                hlLabel.innerText = 'Você Recebe';
+                hlLabel.innerText = 'Cliente Recebe';
                 hlVal.innerText = fmt(valorLiquido);
             } else {
                 hlBox.className = 'highlight-box repassa';
