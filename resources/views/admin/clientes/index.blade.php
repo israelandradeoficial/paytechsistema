@@ -725,6 +725,86 @@
             </div>
         </div>
     </div>
+    <!-- Modal Gerenciar Maquininhas -->
+    <div class="modal fade" id="modalMaquininhas" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content shadow-lg border-0">
+                <div class="modal-header border-0 bg-dark text-white py-3">
+                    <h5 class="modal-title d-flex align-items-center">
+                        <div class="bg-warning bg-opacity-20 rounded-circle p-2 me-3 d-flex align-items-center justify-content-center"
+                            style="width: 40px; height: 40px;">
+                            <i class="bi bi-pci-card fs-5 text-dark"></i>
+                        </div>
+                        <div>
+                            <span class="d-block lh-1 fw-bold">Gerenciar Maquininhas</span>
+                            <small class="opacity-75 fw-normal" id="maquininha_cliente_nome"
+                                style="font-size: 0.85rem;"></small>
+                        </div>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="formNovaMaquininha" method="POST" class="mb-4">
+                        @csrf
+                        <div class="row g-2">
+                            <div class="col-md-5">
+                                <label class="form-label small fw-bold text-muted text-uppercase">Modelo / Nome</label>
+                                <input type="text" name="modelo" class="form-control" required
+                                    placeholder="Ex: Pax A920">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold text-muted text-uppercase">Número de Série</label>
+                                <input type="text" name="numero_serie" class="form-control" required
+                                    placeholder="S/N da máquina">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label small fw-bold text-muted text-uppercase">Status</label>
+                                <select name="status" class="form-select">
+                                    <option value="ativa">Ativa</option>
+                                    <option value="inativa">Inativa</option>
+                                    <option value="problema">Problema</option>
+                                    <option value="manutencao">Manutenção</option>
+                                </select>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <button type="submit" class="btn btn-primary w-100 fw-bold">
+                                    <i class="bi bi-plus-lg me-1"></i> Adicionar Máquininha
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text bg-body border-end-0">
+                                <i class="bi bi-search text-muted"></i>
+                            </span>
+                            <input type="text" id="searchMaquininha" class="form-control border-start-0 ps-0"
+                                placeholder="Buscar pelo número de série (S/N)..." onkeyup="filterMaquininhas()">
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                        <div class="table-responsive" style="max-height: 350px;">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="bg-body-secondary small text-muted text-uppercase">
+                                    <tr>
+                                        <th class="ps-4">Modelo</th>
+                                        <th>S/N</th>
+                                        <th class="text-center">Status</th>
+                                        <th class="text-center">Registro</th>
+                                        <th class="text-end pe-4">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listaMaquininhas"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <style>
         .custom-scrollbar::-webkit-scrollbar {
@@ -1230,7 +1310,242 @@
                     f.action = `/admin/clientes/${b.dataset.clienteId}/taxas`;
                     loadTaxas(b.dataset.clienteId);
                 });
+
+                document.getElementById('modalMaquininhas').addEventListener('show.bs.modal', function(e) {
+                    const b = e.relatedTarget;
+                    document.getElementById('maquininha_cliente_nome').innerText = b.dataset.clienteNome;
+                    const f = document.getElementById('formNovaMaquininha');
+                    f.dataset.clienteId = b.dataset.clienteId;
+                    resetMaquininhaForm();
+                    loadMaquininhas(b.dataset.clienteId);
+                });
             });
+
+            // Maquininhas Logic
+            async function loadMaquininhas(clienteId) {
+                const list = document.getElementById('listaMaquininhas');
+                list.innerHTML =
+                    '<tr><td colspan="5" class="text-center py-4"><div class="spinner-border spinner-border-sm text-primary"></div></td></tr>';
+
+                try {
+                    const res = await fetch(`/admin/clientes/${clienteId}/maquininhas`);
+                    const data = await res.json();
+                    list.innerHTML = '';
+
+                    if (data.length === 0) {
+                        list.innerHTML =
+                            '<tr><td colspan="5" class="text-center py-4 text-muted">Nenhuma máquina cadastrada.</td></tr>';
+                        return;
+                    }
+
+                    data.forEach(m => {
+                        const dateObj = new Date(m.created_at);
+                        const date = dateObj.toLocaleDateString('pt-BR');
+                        const time = dateObj.toLocaleTimeString('pt-BR', {
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        });
+                        let statusBadge = '';
+                        switch (m.status) {
+                            case 'ativa':
+                            case 'ativo':
+                                statusBadge =
+                                    '<span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3">Ativa</span>';
+                                break;
+                            case 'inativa':
+                            case 'inativo':
+                                statusBadge =
+                                    '<span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3">Inativa</span>';
+                                break;
+                            case 'problema':
+                                statusBadge =
+                                    '<span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3">Problema</span>';
+                                break;
+                            case 'manutencao':
+                                statusBadge =
+                                    '<span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-3">Manutenção</span>';
+                                break;
+                            default:
+                                statusBadge =
+                                    `<span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-3">${m.status}</span>`;
+                        }
+
+                        list.innerHTML += `
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="fw-bold">${m.modelo || '---'}</div>
+                                </td>
+                                <td class="small text-muted">${m.numero_serie}</td>
+                                <td class="text-center">${statusBadge}</td>
+                                <td class="text-center small text-muted">${date} <br> <small>${time}</small></td>
+                                <td class="text-end pe-4">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-outline-primary btn-sm border-0" 
+                                            onclick='editMaquininha(${JSON.stringify(m)})'>
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-danger btn-sm border-0" onclick="deleteMaquininha(${m.id}, ${clienteId})">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                } catch (e) {
+                    Swal.fire('Erro', 'Não foi possível carregar as máquinas.', 'error');
+                }
+            }
+
+            function editMaquininha(m) {
+                const f = document.getElementById('formNovaMaquininha');
+                f.dataset.mode = 'edit';
+                f.dataset.maquininhaId = m.id;
+                f.querySelector('[name="modelo"]').value = m.modelo;
+                f.querySelector('[name="numero_serie"]').value = m.numero_serie;
+                f.querySelector('[name="status"]').value = m.status;
+                const btn = f.querySelector('button[type="submit"]');
+                btn.innerHTML = '<i class="bi bi-check-lg me-1"></i> Salvar Alterações';
+                btn.classList.replace('btn-primary', 'btn-warning');
+                if (!document.getElementById('btnCancelarEdicao')) {
+                    const c = document.createElement('button');
+                    c.id = 'btnCancelarEdicao';
+                    c.type = 'button';
+                    c.className = 'btn btn-light w-100 fw-bold mt-2';
+                    c.innerText = 'Cancelar Edição';
+                    c.onclick = resetMaquininhaForm;
+                    btn.parentElement.appendChild(c);
+                }
+            }
+
+            function resetMaquininhaForm() {
+                const f = document.getElementById('formNovaMaquininha');
+                f.dataset.mode = 'create';
+                delete f.dataset.maquininhaId;
+                f.reset();
+
+                const search = document.getElementById('searchMaquininha');
+                if (search) {
+                    search.value = '';
+                    filterMaquininhas();
+                }
+
+                const btn = f.querySelector('button[type="submit"]');
+                btn.innerHTML = '<i class="bi bi-plus-lg me-1"></i> Adicionar Máquina';
+                btn.classList.replace('btn-warning', 'btn-primary');
+                const c = document.getElementById('btnCancelarEdicao');
+                if (c) c.remove();
+            }
+
+            function filterMaquininhas() {
+                const query = document.getElementById('searchMaquininha').value.toLowerCase();
+                const rows = document.querySelectorAll('#listaMaquininhas tr');
+
+                rows.forEach(row => {
+                    // Check if it's the "no machines" row
+                    if (row.cells.length === 1) return;
+
+                    const sn = row.cells[1]?.innerText.toLowerCase();
+                    if (sn) {
+                        row.style.display = sn.includes(query) ? '' : 'none';
+                    }
+                });
+            }
+
+            document.getElementById('formNovaMaquininha').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const f = e.target;
+                const mode = f.dataset.mode || 'create';
+                const clienteId = f.dataset.clienteId;
+                const maquininhaId = f.dataset.maquininhaId;
+                const btn = f.querySelector('button[type="submit"]');
+                const url = mode === 'create' ? `/admin/clientes/${clienteId}/maquininhas` :
+                    `/admin/maquininhas/${maquininhaId}`;
+                const method = mode === 'create' ? 'POST' : 'PUT';
+
+                btn.disabled = true;
+                try {
+                    const res = await fetch(url, {
+                        method: method,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            modelo: f.querySelector('[name="modelo"]').value,
+                            numero_serie: f.querySelector('[name="numero_serie"]').value,
+                            status: f.querySelector('[name="status"]').value
+                        })
+                    });
+                    const data = await res.json();
+                    if (res.ok) {
+                        resetMaquininhaForm();
+                        loadMaquininhas(clienteId);
+                        Toast.fire({
+                            icon: 'success',
+                            title: data.message
+                        });
+                    } else if (res.status === 422) {
+                        let msgs = '';
+                        Object.values(data.errors).forEach(errs => {
+                            errs.forEach(err => {
+                                msgs += `${err}<br>`;
+                            });
+                        });
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erro de Validação',
+                            html: msgs,
+                            confirmButtonColor: '#6366f1'
+                        });
+                    } else {
+                        throw new Error(data.message || 'Erro ao processar máquina.');
+                    }
+                } catch (e) {
+                    Swal.fire('Erro', e.message, 'error');
+                } finally {
+                    btn.disabled = false;
+                }
+            });
+
+            async function deleteMaquininha(id, clienteId) {
+                const {
+                    isConfirmed
+                } = await Swal.fire({
+                    title: 'Remover Máquina?',
+                    text: "Esta ação não pode ser desfeita.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sim, remover!',
+                    cancelButtonText: 'Cancelar',
+                    customClass: {
+                        confirmButton: 'btn btn-danger rounded-pill',
+                        cancelButton: 'btn btn-light rounded-pill'
+                    }
+                });
+
+                if (isConfirmed) {
+                    try {
+                        const res = await fetch(`/admin/maquininhas/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            }
+                        });
+                        const data = await res.json();
+                        if (data.success) {
+                            loadMaquininhas(clienteId);
+                            Toast.fire({
+                                icon: 'success',
+                                title: data.message
+                            });
+                        }
+                    } catch (e) {
+                        Swal.fire('Erro', 'Erro ao remover máquina.', 'error');
+                    }
+                }
+            }
 
             async function lookupCep(i) {
                 const cep = i.value.replace(/\D/g, '');

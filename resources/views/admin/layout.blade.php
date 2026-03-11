@@ -254,13 +254,30 @@
         /* Input Adjustments */
         .form-control,
         .form-select {
-            border-radius: 0.375rem !important;
+            border-radius: 0.375rem;
             padding: 0.6rem 1rem;
             font-size: 0.9rem;
             transition: border-color 0.2s, box-shadow 0.2s;
             background-color: var(--bs-body-bg) !important;
             color: var(--bs-body-color) !important;
             border: 1px solid var(--bs-border-color) !important;
+        }
+
+        /* Fix for grouped inputs/buttons */
+        .input-group>.form-control:not(:first-child),
+        .input-group>.form-select:not(:first-child),
+        .input-group>.input-group-text:not(:first-child),
+        .input-group>.btn:not(:first-child) {
+            border-top-left-radius: 0 !important;
+            border-bottom-left-radius: 0 !important;
+        }
+
+        .input-group>.form-control:not(:last-child),
+        .input-group>.form-select:not(:last-child),
+        .input-group>.input-group-text:not(:last-child),
+        .input-group>.btn:not(:last-child) {
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
         }
 
         .form-control:focus,

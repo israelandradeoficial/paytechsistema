@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ClienteController;
 use App\Http\Controllers\Admin\TaxaController;
+use App\Http\Controllers\Admin\MaquininhaController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\Admin\UserController;
@@ -35,6 +36,12 @@ Route::middleware('auth')->group(function () {
         Route::resource('admin/clientes', ClienteController::class)->names('admin.clientes');
         Route::get('admin/clientes/{cliente}/taxas', [TaxaController::class, 'index'])->name('admin.clientes.taxas.index');
         Route::get('admin/clientes/{cliente}/pdf', [ClienteController::class, 'pdf'])->name('admin.clientes.pdf');
+
+        // Maquininhas
+        Route::get('admin/clientes/{cliente}/maquininhas', [MaquininhaController::class, 'index'])->name('admin.clientes.maquininhas.index');
+        Route::post('admin/clientes/{cliente}/maquininhas', [MaquininhaController::class, 'store'])->name('admin.clientes.maquininhas.store');
+        Route::put('admin/maquininhas/{maquininha}', [MaquininhaController::class, 'update'])->name('admin.maquininhas.update');
+        Route::delete('admin/maquininhas/{maquininha}', [MaquininhaController::class, 'destroy'])->name('admin.maquininhas.destroy');
     });
 
     // Usuários (Apenas quem tem permissão manage_users)

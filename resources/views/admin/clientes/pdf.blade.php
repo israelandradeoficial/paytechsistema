@@ -6,7 +6,7 @@
     <title>Ficha Cadastral - {{ $cliente->nome }}</title>
     <style>
         @page {
-            margin: 1.5cm 1.2cm;
+            margin: 0.8cm 1.0cm;
         }
 
         /* Strict Sans-Serif Enforcement */
@@ -16,10 +16,10 @@
 
         body {
             color: #334155;
-            line-height: 1.5;
+            line-height: 1.3;
             margin: 0;
             padding: 0;
-            font-size: 11px;
+            font-size: 10px;
         }
 
         .container {
@@ -30,8 +30,8 @@
         .header-table {
             width: 100%;
             border-bottom: 1px solid #6f727aff;
-            margin-bottom: 30px;
-            padding-bottom: 25px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
         }
 
         .logo-cell {
@@ -40,8 +40,8 @@
         }
 
         .logo-img {
-            max-height: 50px;
-            max-width: 200px;
+            max-height: 40px;
+            max-width: 180px;
         }
 
         .company-cell {
@@ -67,7 +67,7 @@
 
         /* Title Section - No borders here as per user request */
         .headline-section {
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             padding: 0;
         }
 
@@ -90,7 +90,7 @@
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             table-layout: fixed;
             border: 1px solid #e2e8f0;
         }
@@ -100,7 +100,7 @@
         }
 
         .table-header td {
-            padding: 8px 15px;
+            padding: 6px 12px;
             border: 1px solid #e2e8f0;
             border-bottom: 2px solid #e2e8f0;
             font-weight: bold;
@@ -110,7 +110,7 @@
         }
 
         .data-row td {
-            padding: 10px 15px;
+            padding: 7px 12px;
             border: 1px solid #e2e8f0;
             vertical-align: middle;
         }
@@ -154,6 +154,16 @@
         .status-inactive {
             background-color: #fef2f2;
             color: #991b1b;
+        }
+
+        .status-problem {
+            background-color: #fffbeb;
+            color: #92400e;
+        }
+
+        .status-maintenance {
+            background-color: #f0f9ff;
+            color: #075985;
         }
 
         /* footer */
@@ -243,11 +253,11 @@
                 <td colspan="2">Informações de Contato</td>
             </tr>
             <tr class="data-row">
-                <td class="label-col">E-mail de Cadastro</td>
+                <td class="label-col">E-mail</td>
                 <td class="value-col" style="font-weight: bold; color: #0f172a;">{{ $cliente->email }}</td>
             </tr>
             <tr class="data-row">
-                <td class="label-col">Telefone Principal</td>
+                <td class="label-col">Telefone</td>
                 <td class="value-col">{{ $cliente->telefone_formatado }}</td>
             </tr>
         </table>
@@ -258,7 +268,7 @@
                 <td colspan="2">Localização e Endereço</td>
             </tr>
             <tr class="data-row">
-                <td class="label-col">Logradouro e Número</td>
+                <td class="label-col">Endereço</td>
                 <td class="value-col">
                     <strong>{{ $cliente->rua }}, {{ $cliente->numero }}</strong>
                     @if ($cliente->complemento)
@@ -276,6 +286,68 @@
                 <td class="label-col">Código Postal (CEP)</td>
                 <td class="value-col">{{ $cliente->cep_formatado }}</td>
             </tr>
+        </table>
+
+        <!-- Section 05: Machines -->
+        <table class="data-table" style="page-break-inside: avoid;">
+            <tr class="table-header">
+                <td colspan="4">Maquininha(s) Vinculada(s)</td>
+            </tr>
+            <tr class="data-row"
+                style="background-color: #f8fafc; font-size: 9px; font-weight: bold; text-transform: uppercase;">
+                <td style="width: 30%;">Modelo</td>
+                <td style="width: 30%;">S/N</td>
+                <td style="width: 20%; text-align: center;">Status</td>
+                <td style="width: 20%; text-align: center;">Data Registro</td>
+            </tr>
+            @forelse($cliente->maquininhas as $m)
+                @php
+                    $statusClass = '';
+                    $statusLabel = '';
+                    switch ($m->status) {
+                        case 'ativa':
+                        case 'ativo':
+                            $statusClass = 'status-active';
+                            $statusLabel = 'Ativa';
+                            break;
+                        case 'inativa':
+                        case 'inativo':
+                            $statusClass = 'status-inactive';
+                            $statusLabel = 'Inativa';
+                            break;
+                        case 'problema':
+                            $statusClass = 'status-problem';
+                            $statusLabel = 'Problema';
+                            break;
+                        case 'manutencao':
+                            $statusClass = 'status-maintenance';
+                            $statusLabel = 'Manutenção';
+                            break;
+                        default:
+                            $statusClass = '';
+                            $statusLabel = $m->status;
+                    }
+                @endphp
+                <tr class="data-row">
+                    <td class="value-col">{{ $m->modelo }}</td>
+                    <td class="value-col">{{ $m->numero_serie }}</td>
+                    <td class="value-col" style="text-align: center;">
+                        <span class="status-pill {{ $statusClass }}">
+                            {{ $statusLabel }}
+                        </span>
+                    </td>
+                    <td class="value-col" style="text-align: center; font-size: 11px;">
+                        {{ $m->created_at->format('d/m/Y') }}
+                    </td>
+                </tr>
+            @empty
+                <tr class="data-row">
+                    <td colspan="4" class="value-col"
+                        style="text-align: center; color: #64748b; font-style: italic;">
+                        Nenhuma maquininha vinculada a este cliente.
+                    </td>
+                </tr>
+            @endforelse
         </table>
 
         @if ($cliente->data_validade)

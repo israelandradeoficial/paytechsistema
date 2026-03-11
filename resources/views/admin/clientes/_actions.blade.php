@@ -9,6 +9,12 @@
         <i class="bi bi-file-earmark-pdf"></i>
     </a>
 
+    <button type="button" class="btn btn-outline-warning btn-sm border-0" data-bs-toggle="modal"
+        data-bs-target="#modalMaquininhas" data-cliente-id="{{ $cliente->id }}"
+        data-cliente-nome="{{ $cliente->nome }}" title="Gerenciar Maquininhas">
+        <i class="bi bi-pci-card"></i>
+    </button>
+
     @can('manage_rates')
         <button type="button" class="btn btn-outline-primary btn-sm border-0" data-bs-toggle="modal"
             data-bs-target="#modalTaxas" data-cliente-id="{{ $cliente->id }}" data-cliente-nome="{{ $cliente->nome }}"

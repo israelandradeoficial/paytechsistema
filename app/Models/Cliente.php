@@ -51,6 +51,11 @@ class Cliente extends Model
         return $this->hasMany(Taxa::class);
     }
 
+    public function maquininhas(): HasMany
+    {
+        return $this->hasMany(Maquininha::class);
+    }
+
     /**
      * Exibe o CPF ou CNPJ formatado com máscara.
      */
