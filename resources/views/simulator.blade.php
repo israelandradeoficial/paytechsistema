@@ -826,7 +826,16 @@
             const taxaTotalBadge = taxaPerc + lucroPerc;
             document.getElementById('res_bruto').innerText = fmt(modo === 'cobrar' ? valorBruto : valorLiquido);
             document.getElementById('res_badge').innerText = taxaTotalBadge.toLocaleString('pt-BR') + '%';
-            document.getElementById('res_taxa').innerText = '- ' + fmt(valorTaxaAmt);
+            
+            const elTaxa = document.getElementById('res_taxa');
+            if (modo === 'receber') {
+                elTaxa.innerText = '+ ' + fmt(valorTaxaAmt);
+                elTaxa.style.color = 'var(--primary)'; // Azul amigável para acréscimo 
+            } else {
+                elTaxa.innerText = '- ' + fmt(valorTaxaAmt);
+                elTaxa.style.color = 'var(--danger)'; // Vermelho para decréscimo
+            }
+
             document.getElementById('label-bruto').innerText = modo === 'cobrar' ? 'Valor Cobrado no Cartão' :
                 'Valor Desejado Líquido';
 
