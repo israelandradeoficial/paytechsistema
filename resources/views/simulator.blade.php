@@ -701,23 +701,6 @@
 
             const filtradas = taxas.filter(t => t.bandeira === bandeiraSel);
 
-            // Calcular o valor bruto global baseado na opção que já está selecionada (ou a última, ex: 12x)
-            let optSelecionada = filtradas.find(t => t.id == currentSelected);
-            if (!optSelecionada && filtradas.length > 0) {
-                optSelecionada = filtradas[filtradas.length - 1]; // Geralmente a de maior parcela (12x)
-            }
-
-            let totalPagarGlobal = 0;
-            if (valor > 0 && optSelecionada) {
-                const taxaSel = parseFloat(optSelecionada.valor);
-                if (modo === 'cobrar') {
-                    totalPagarGlobal = valor;
-                } else {
-                    const valorComLucro = valor + (valor * lucroPerc / 100);
-                    totalPagarGlobal = roundTo2(valorComLucro / (1 - taxaSel / 100));
-                }
-            }
-
             filtradas.forEach((t) => {
                 const num = parseInt(t.parcela) || 1;
                 const taxaPerc = parseFloat(t.valor);
@@ -727,8 +710,15 @@
                 const taxaTotalExibicao = (taxaPerc + lucroPerc).toLocaleString('pt-BR') + '%';
 
                 if (valor > 0) {
-                    // A maquininha física pega o Valor Bruto final calculado e apenas divide pelas parcelas!
-                    const valorParcela = roundTo2(totalPagarGlobal / num);
+                    let totalPagar = 0;
+                    if (modo === 'cobrar') {
+                        totalPagar = valor;
+                    } else {
+                        // Calcula o montante exato com a taxa DESTA ÚNICA parcela
+                        const valorComLucro = valor + (valor * lucroPerc / 100);
+                        totalPagar = roundTo2(valorComLucro / (1 - taxaPerc / 100));
+                    }
+                    const valorParcela = roundTo2(totalPagar / num);
                     label = `${num}x de ${fmt(valorParcela)} (${taxaTotalExibicao})`;
                 } else {
                     label = `${num}x · ${taxaTotalExibicao}`;
@@ -784,26 +774,6 @@
 
             let valorBruto, valorTaxaAmt, valorLiquido, valorCobrar, valorLucro;
 
-            // Recalculando o bruto global para espelhar a lógica exata da maquininha
-            // que gera a lista 
-            const bandeiraSel = document.getElementById('sel_bandeira').value;
-            const filtradas = taxas.filter(t => t.bandeira === bandeiraSel);
-            let optSelecionada = filtradas.find(t => t.id == opt.value);
-            if (!optSelecionada && filtradas.length > 0) {
-                optSelecionada = filtradas[filtradas.length - 1]; // Fallback pra 12x
-            }
-
-            let totalPagarGlobal = valor;
-            if (valor > 0 && optSelecionada) {
-                if (modo === 'cobrar') {
-                    totalPagarGlobal = valor;
-                } else {
-                    const taxaSel = parseFloat(optSelecionada.valor);
-                    const valorComLucro = valor + (valor * lucroPerc / 100);
-                    totalPagarGlobal = roundTo2(valorComLucro / (1 - taxaSel / 100));
-                }
-            }
-
             if (modo === 'cobrar') {
                 // Cobrar: passa X no cartão → desconta a taxa → desconta o lucro → mostra quanto recebe
                 valorBruto = valor;
@@ -812,11 +782,13 @@
                 valorLiquido = valorBruto - valorTaxaAmt;
                 valorCobrar = null;
             } else {
-                // Receber: O Bruto cobrado do cliente é apenas a divisão do Montante global pela parcela (como na lista)
+                // Receber: Calcula precisamente o bruto com base na taxa de parcela selecionada agora
                 valorLiquido = valor;
-                const valorParcelaSelecionada = roundTo2(totalPagarGlobal / num);
+                const valorComLucro = valor + (valor * lucroPerc / 100);
+                const brutoMinimo = roundTo2(valorComLucro / (1 - taxaPerc / 100));
 
-                valorBruto = valorParcelaSelecionada * num;
+                const valorParcela = roundTo2(brutoMinimo / num);
+                valorBruto = valorParcela * num;
                 valorTaxaAmt = (valorBruto * (taxaPerc + lucroPerc)) / 100; // Taxa Visual Total
                 valorLucro = (valor * lucroPerc) / 100; // Lucro incide na base
                 valorCobrar = valorBruto;
