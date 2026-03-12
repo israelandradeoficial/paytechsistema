@@ -701,22 +701,6 @@
 
             const filtradas = taxas.filter(t => t.bandeira === bandeiraSel);
 
-            let optBase = filtradas.find(t => parseInt(t.parcela) === 12);
-            if (!optBase) {
-                optBase = filtradas.length > 0 ? filtradas.reduce((max, obj) => parseInt(obj.parcela) > parseInt(max.parcela) ? obj : max) : null;
-            }
-
-            let totalPagarGlobal = 0;
-            if (valor > 0 && optBase) {
-                const taxaSelBase = parseFloat(optBase.valor);
-                if (modo === 'cobrar') {
-                    totalPagarGlobal = valor;
-                } else {
-                    const valorComLucro = valor + (valor * lucroPerc / 100);
-                    totalPagarGlobal = roundTo2(valorComLucro / (1 - taxaSelBase / 100));
-                }
-            }
-
             filtradas.forEach((t) => {
                 const num = parseInt(t.parcela) || 1;
                 const taxaPerc = parseFloat(t.valor);
@@ -726,7 +710,15 @@
                 const taxaTotalExibicao = (taxaPerc + lucroPerc).toLocaleString('pt-BR') + '%';
 
                 if (valor > 0) {
-                    const valorParcela = roundTo2(totalPagarGlobal / num);
+                    let totalPagar = 0;
+                    if (modo === 'cobrar') {
+                        totalPagar = valor;
+                    } else {
+                        // Calcula o montante exato com a taxa DESTA parcelas
+                        const valorComLucro = valor + (valor * lucroPerc / 100);
+                        totalPagar = roundTo2(valorComLucro / (1 - taxaPerc / 100));
+                    }
+                    const valorParcela = roundTo2(totalPagar / num);
                     label = `${num}x de ${fmt(valorParcela)} (${taxaTotalExibicao})`;
                 } else {
                     label = `${num}x · ${taxaTotalExibicao}`;
@@ -781,22 +773,6 @@
             const lucroPerc = parseFloat(document.getElementById('lucro_perc').value) || 0;
 
             let valorBruto, valorTaxaAmt, valorLiquido, valorCobrar, valorLucro;
-            
-            const bandeiraSelVal = document.getElementById('sel_bandeira').value;
-            const filtradasT = taxas.filter(t => t.bandeira === bandeiraSelVal);
-            let optBase = filtradasT.find(t => parseInt(t.parcela) === 12);
-            if (!optBase) {
-                optBase = filtradasT.length > 0 ? filtradasT.reduce((max, obj) => parseInt(obj.parcela) > parseInt(max.parcela) ? obj : max) : null;
-            }
-
-            let totalPagarGlobal = valor;
-            if (valor > 0 && optBase) {
-                if (modo === 'receber') {
-                    const taxaSelBase = parseFloat(optBase.valor);
-                    const valorComLucro = valor + (valor * lucroPerc / 100);
-                    totalPagarGlobal = roundTo2(valorComLucro / (1 - taxaSelBase / 100));
-                }
-            }
 
             if (modo === 'cobrar') {
                 // Cobrar: passa X no cartão → desconta a taxa → desconta o lucro → mostra quanto recebe
@@ -806,10 +782,12 @@
                 valorLiquido = valorBruto - valorTaxaAmt;
                 valorCobrar = null;
             } else {
-                // Receber: Calcula precisamente o bruto com base na taxa estática Max da maquina
+                // Receber: Calcula precisamente o bruto com base na taxa estática DESSA parcela
                 valorLiquido = valor;
-                const valorParcelaSelecionada = roundTo2(totalPagarGlobal / num);
+                const valorComLucro = valor + (valor * lucroPerc / 100);
+                const brutoMinimo = roundTo2(valorComLucro / (1 - taxaPerc / 100));
 
+                const valorParcelaSelecionada = roundTo2(brutoMinimo / num);
                 valorBruto = valorParcelaSelecionada * num;
                 valorTaxaAmt = (valorBruto * (taxaPerc + lucroPerc)) / 100; // Taxa Visual Total
                 valorLucro = (valor * lucroPerc) / 100; // Lucro incide na base
