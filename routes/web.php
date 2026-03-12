@@ -53,9 +53,9 @@ Route::middleware('auth')->group(function () {
     Route::middleware('can:manage_rates')->group(function () {
         Route::post('admin/clientes/{cliente}/taxas', [TaxaController::class, 'store'])->name('admin.clientes.taxas.store');
         Route::post('admin/clientes/{cliente}/taxas/single', [TaxaController::class, 'storeSingle'])->name('admin.taxas.storeSingle');
+        Route::put('admin/taxas/bulk', [TaxaController::class, 'updateMany'])->name('admin.taxas.updateMany');
         Route::put('admin/taxas/{taxa}', [TaxaController::class, 'update'])->name('admin.taxas.update');
         Route::delete('admin/taxas/{taxa}', [TaxaController::class, 'destroy'])->name('admin.taxas.destroy');
-        Route::put('admin/taxas/bulk', [TaxaController::class, 'updateMany'])->name('admin.taxas.updateMany');
     });
 
     // Configurações (Apenas Administradores)

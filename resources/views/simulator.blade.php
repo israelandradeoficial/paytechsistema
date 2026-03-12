@@ -646,8 +646,7 @@
         <div class="sim-footer"
             style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
             <span>Desenvolvido por <strong>{{ \App\Models\Setting::get('site_name') }}</strong></span>
-            <a href="{{ route('simulator.logout') }}"
-                style="color: #fff; font-size: 0.75rem; text-decoration: none;"
+            <a href="{{ route('simulator.logout') }}" style="color: #fff; font-size: 0.75rem; text-decoration: none;"
                 title="Sair / Trocar conta">
                 <i class="bi bi-box-arrow-right"></i> Sair
             </a>
@@ -665,6 +664,10 @@
                 style: 'currency',
                 currency: 'BRL'
             });
+        }
+
+        function roundTo2(val) {
+            return Math.round((val + Number.EPSILON) * 100) / 100;
         }
 
         function setMode(m) {
@@ -685,6 +688,7 @@
             const bandeiraSel = document.getElementById('sel_bandeira').value;
             const selTaxa = document.getElementById('sel_taxa');
             const valor = parseFloat(document.getElementById('valor_venda').value) || 0;
+            const lucroPerc = parseFloat(document.getElementById('lucro_perc').value) || 0;
             const currentSelected = selTaxa.value;
 
             selTaxa.innerHTML = '<option value="">Selecione o plano...</option>';
@@ -700,16 +704,24 @@
             filtradas.forEach((t) => {
                 const num = parseInt(t.parcela) || 1;
                 const taxaPerc = parseFloat(t.valor);
+                const taxaTotalPerc = taxaPerc + lucroPerc;
 
                 // Montar label dinâmico com valor calculado se disponível
                 let label = '';
+                const taxaTotalExibicao = (taxaPerc + lucroPerc).toLocaleString('pt-BR') + '%';
+                
                 if (valor > 0) {
-                    const valorParcela = modo === 'cobrar' ?
-                        ((valor * (1 - taxaPerc / 100)) / num) :
-                        ((valor / (1 - taxaPerc / 100)) / num);
-                    label = `${num}x de ${fmt(valorParcela)} (${taxaPerc.toLocaleString('pt-BR')}%)`;
+                    let totalPagar = 0;
+                    if (modo === 'cobrar') {
+                        totalPagar = valor;
+                    } else {
+                        const valorComLucro = valor + (valor * lucroPerc / 100);
+                        totalPagar = roundTo2(valorComLucro / (1 - taxaPerc / 100));
+                    }
+                    const valorParcela = roundTo2(totalPagar / num);
+                    label = `${num}x de ${fmt(valorParcela)} (${taxaTotalExibicao})`;
                 } else {
-                    label = `${num}x · ${taxaPerc.toLocaleString('pt-BR')}%`;
+                    label = `${num}x · ${taxaTotalExibicao}`;
                 }
 
                 const opt = document.createElement('option');
@@ -733,6 +745,9 @@
         });
 
         document.getElementById('lucro_perc').addEventListener('input', function() {
+            if (document.getElementById('sel_bandeira')?.value) {
+                onBandeiraChange();
+            }
             calcular();
         });
 
@@ -767,18 +782,23 @@
                 valorLiquido = valorBruto - valorTaxaAmt - valorLucro;
                 valorCobrar = null;
             } else {
-                // Receber: quer receber X base + lucro Y → acrescenta taxa → mostra quanto cobrar
-                valorLucro = (valor * lucroPerc) / 100;
-                const valorAlvoLiquido = valor + valorLucro;
-                valorBruto = valorAlvoLiquido / (1 - taxaPerc / 100);
-                valorTaxaAmt = valorBruto - valorAlvoLiquido;
+                // Receber: quer receber X base
                 valorLiquido = valor;
+                const valorComLucro = valor + (valor * lucroPerc / 100);
+                const brutoMinimo = roundTo2(valorComLucro / (1 - taxaPerc / 100));
+                
+                const valorParcela = roundTo2(brutoMinimo / num);
+                valorBruto = valorParcela * num; // Total final exato a ser cobrado
+
+                valorTaxaAmt = (valorBruto * taxaPerc) / 100;
+                valorLucro = (valor * lucroPerc) / 100;
                 valorCobrar = valorBruto;
             }
 
             // Preencher resultados
+            const taxaTotalBadge = taxaPerc + lucroPerc;
             document.getElementById('res_bruto').innerText = fmt(modo === 'cobrar' ? valorBruto : valorLiquido);
-            document.getElementById('res_badge').innerText = taxaPerc.toLocaleString('pt-BR') + '%';
+            document.getElementById('res_badge').innerText = taxaTotalBadge.toLocaleString('pt-BR') + '%';
             document.getElementById('res_taxa').innerText = '- ' + fmt(valorTaxaAmt);
             document.getElementById('label-bruto').innerText = modo === 'cobrar' ? 'Valor Cobrado no Cartão' :
                 'Valor Desejado Líquido';
