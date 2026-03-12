@@ -784,6 +784,26 @@
 
             let valorBruto, valorTaxaAmt, valorLiquido, valorCobrar, valorLucro;
 
+            // Recalculando o bruto global para espelhar a lógica exata da maquininha
+            // que gera a lista 
+            const bandeiraSel = document.getElementById('sel_bandeira').value;
+            const filtradas = taxas.filter(t => t.bandeira === bandeiraSel);
+            let optSelecionada = filtradas.find(t => t.id == opt.value);
+            if (!optSelecionada && filtradas.length > 0) {
+                optSelecionada = filtradas[filtradas.length - 1]; // Fallback pra 12x
+            }
+
+            let totalPagarGlobal = valor;
+            if (valor > 0 && optSelecionada) {
+                if (modo === 'cobrar') {
+                    totalPagarGlobal = valor;
+                } else {
+                    const taxaSel = parseFloat(optSelecionada.valor);
+                    const valorComLucro = valor + (valor * lucroPerc / 100);
+                    totalPagarGlobal = roundTo2(valorComLucro / (1 - taxaSel / 100));
+                }
+            }
+
             if (modo === 'cobrar') {
                 // Cobrar: passa X no cartão → desconta a taxa → desconta o lucro → mostra quanto recebe
                 valorBruto = valor;
@@ -792,16 +812,13 @@
                 valorLiquido = valorBruto - valorTaxaAmt - valorLucro;
                 valorCobrar = null;
             } else {
-                // Receber: quer receber X base
+                // Receber: O Bruto cobrado do cliente é apenas a divisão do Montante global pela parcela (como na lista)
                 valorLiquido = valor;
-                const valorComLucro = valor + (valor * lucroPerc / 100);
-                const brutoMinimo = roundTo2(valorComLucro / (1 - taxaPerc / 100));
+                const valorParcelaSelecionada = roundTo2(totalPagarGlobal / num);
                 
-                const valorParcela = roundTo2(brutoMinimo / num);
-                valorBruto = valorParcela * num; // Total final exato a ser cobrado
-
+                valorBruto = valorParcelaSelecionada * num; 
                 valorTaxaAmt = (valorBruto * taxaPerc) / 100;
-                valorLucro = (valor * lucroPerc) / 100;
+                valorLucro = (valor * lucroPerc) / 100; // Lucro incide na base
                 valorCobrar = valorBruto;
             }
 
