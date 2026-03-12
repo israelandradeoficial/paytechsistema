@@ -807,9 +807,9 @@
             if (modo === 'cobrar') {
                 // Cobrar: passa X no cartão → desconta a taxa → desconta o lucro → mostra quanto recebe
                 valorBruto = valor;
-                valorTaxaAmt = (valorBruto * taxaPerc) / 100;
+                valorTaxaAmt = (valorBruto * (taxaPerc + lucroPerc)) / 100; // Taxa Visual Total
                 valorLucro = (valorBruto * lucroPerc) / 100;
-                valorLiquido = valorBruto - valorTaxaAmt - valorLucro;
+                valorLiquido = valorBruto - valorTaxaAmt;
                 valorCobrar = null;
             } else {
                 // Receber: O Bruto cobrado do cliente é apenas a divisão do Montante global pela parcela (como na lista)
@@ -817,7 +817,7 @@
                 const valorParcelaSelecionada = roundTo2(totalPagarGlobal / num);
                 
                 valorBruto = valorParcelaSelecionada * num; 
-                valorTaxaAmt = (valorBruto * taxaPerc) / 100;
+                valorTaxaAmt = (valorBruto * (taxaPerc + lucroPerc)) / 100; // Taxa Visual Total
                 valorLucro = (valor * lucroPerc) / 100; // Lucro incide na base
                 valorCobrar = valorBruto;
             }
