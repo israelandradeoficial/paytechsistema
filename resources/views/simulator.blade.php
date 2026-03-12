@@ -701,24 +701,34 @@
 
             const filtradas = taxas.filter(t => t.bandeira === bandeiraSel);
 
+            // Calcular o valor bruto global baseado na opção que já está selecionada (ou a última, ex: 12x)
+            let optSelecionada = filtradas.find(t => t.id == currentSelected);
+            if (!optSelecionada && filtradas.length > 0) {
+                optSelecionada = filtradas[filtradas.length - 1]; // Geralmente a de maior parcela (12x)
+            }
+            
+            let totalPagarGlobal = 0;
+            if (valor > 0 && optSelecionada) {
+                const taxaSel = parseFloat(optSelecionada.valor);
+                if (modo === 'cobrar') {
+                    totalPagarGlobal = valor;
+                } else {
+                    const valorComLucro = valor + (valor * lucroPerc / 100);
+                    totalPagarGlobal = roundTo2(valorComLucro / (1 - taxaSel / 100));
+                }
+            }
+
             filtradas.forEach((t) => {
                 const num = parseInt(t.parcela) || 1;
                 const taxaPerc = parseFloat(t.valor);
-                const taxaTotalPerc = taxaPerc + lucroPerc;
-
-                // Montar label dinâmico com valor calculado se disponível
+                
+                // Montar label dinâmico com valor calculado
                 let label = '';
                 const taxaTotalExibicao = (taxaPerc + lucroPerc).toLocaleString('pt-BR') + '%';
                 
                 if (valor > 0) {
-                    let totalPagar = 0;
-                    if (modo === 'cobrar') {
-                        totalPagar = valor;
-                    } else {
-                        const valorComLucro = valor + (valor * lucroPerc / 100);
-                        totalPagar = roundTo2(valorComLucro / (1 - taxaPerc / 100));
-                    }
-                    const valorParcela = roundTo2(totalPagar / num);
+                    // A maquininha física pega o Valor Bruto final calculado e apenas divide pelas parcelas!
+                    const valorParcela = roundTo2(totalPagarGlobal / num);
                     label = `${num}x de ${fmt(valorParcela)} (${taxaTotalExibicao})`;
                 } else {
                     label = `${num}x · ${taxaTotalExibicao}`;
@@ -726,7 +736,7 @@
 
                 const opt = document.createElement('option');
                 opt.value = t.id;
-                opt.dataset.valor = t.valor;
+                opt.dataset.valor = taxaPerc;
                 opt.dataset.num = num;
                 opt.textContent = label;
                 if (t.id == currentSelected) opt.selected = true;
