@@ -701,15 +701,19 @@
 
             const filtradas = taxas.filter(t => t.bandeira === bandeiraSel);
 
-            let optMaxima = filtradas.length > 0 ? filtradas.reduce((max, obj) => parseInt(obj.parcela) > parseInt(max.parcela) ? obj : max) : null;
+            let optBase = filtradas.find(t => parseInt(t.parcela) === 12);
+            if (!optBase) {
+                optBase = filtradas.length > 0 ? filtradas.reduce((max, obj) => parseInt(obj.parcela) > parseInt(max.parcela) ? obj : max) : null;
+            }
+
             let totalPagarGlobal = 0;
-            if (valor > 0 && optMaxima) {
-                const taxaSelMax = parseFloat(optMaxima.valor);
+            if (valor > 0 && optBase) {
+                const taxaSelBase = parseFloat(optBase.valor);
                 if (modo === 'cobrar') {
                     totalPagarGlobal = valor;
                 } else {
                     const valorComLucro = valor + (valor * lucroPerc / 100);
-                    totalPagarGlobal = roundTo2(valorComLucro / (1 - taxaSelMax / 100));
+                    totalPagarGlobal = roundTo2(valorComLucro / (1 - taxaSelBase / 100));
                 }
             }
 
@@ -780,13 +784,17 @@
             
             const bandeiraSelVal = document.getElementById('sel_bandeira').value;
             const filtradasT = taxas.filter(t => t.bandeira === bandeiraSelVal);
-            let optMaxima = filtradasT.length > 0 ? filtradasT.reduce((max, obj) => parseInt(obj.parcela) > parseInt(max.parcela) ? obj : max) : null;
+            let optBase = filtradasT.find(t => parseInt(t.parcela) === 12);
+            if (!optBase) {
+                optBase = filtradasT.length > 0 ? filtradasT.reduce((max, obj) => parseInt(obj.parcela) > parseInt(max.parcela) ? obj : max) : null;
+            }
+
             let totalPagarGlobal = valor;
-            if (valor > 0 && optMaxima) {
+            if (valor > 0 && optBase) {
                 if (modo === 'receber') {
-                    const taxaSelMax = parseFloat(optMaxima.valor);
+                    const taxaSelBase = parseFloat(optBase.valor);
                     const valorComLucro = valor + (valor * lucroPerc / 100);
-                    totalPagarGlobal = roundTo2(valorComLucro / (1 - taxaSelMax / 100));
+                    totalPagarGlobal = roundTo2(valorComLucro / (1 - taxaSelBase / 100));
                 }
             }
 
